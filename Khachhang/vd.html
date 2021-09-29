@@ -1,0 +1,364 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Guest\HomepageController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\MaterialController;
+use App\Http\Controllers\Admin\TypeMaterialController;
+
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+Route::get('/guest.homepage.index', function () {
+    return view('guest.homepage.index');
+})->middleware(['auth'])->name('guest.homepage.index');
+
+require __DIR__.'/auth.php';
+
+
+
+
+
+//khách hàng
+Route::get('/',[HomepageController::class, 'index']);
+
+// nhanvien
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function (){
+    Route::get('/', [DashboardController::class, 'index']);
+
+    // Route:: get('/typematerials', [TypeMaterialController::class ,'index']);
+    //nhầm cái tronlloer // thấy k 
+    //typematerials/create reoute nè
+
+    
+    
+
+    //chỉ vào controller cho đúng đi
+        //danh sách thêm sửa xóa loại nguyên liệu
+        //sao k có controoler 
+
+
+        //danh sách thêm sửa xóa nguyên liệu
+        Route::resource('materials', MaterialController::class);
+        Route:: get('/materials/create', [MaterialController::class ,'create']);
+
+        // Route::resource('typematerials', TypeMaterialController::class);
+
+
+});
+
+?>
+
+
+
+
+
+
+
+
+
+
+
+@extends('admin.layout')
+
+@section('content')
+<title>Loại nguyên liệu</title>
+
+    <style>
+            html, body {
+            width: 100%;
+            height: 100%;
+            font-size: 18px;
+            color: #222;
+        }
+
+        .color {
+            background-color: rgb(214, 91, 47) !important;
+        }
+
+        .color2 {
+            background-color: rgb(167, 192, 230);
+        }
+        .navbar {
+            background-color: rgb(214, 91, 47) !important;
+
+        }
+
+        .navbar li a {
+            color: #fff !important;
+        }
+
+        /* hover: di chuyển chuột đến thì đổi màu */
+        .navbar li a:hover{   
+            color:black !important;
+        }
+
+        .btn {
+            text-decoration: none;
+            padding: 6px 25px;
+            font-size: 18px;
+            
+        }
+
+        .btn_item {
+            background-color: rgb(214, 91, 47);
+            color: #fff;
+        }
+    </style>
+
+    
+
+    <div class="">
+      <h2 class="text-center pt-5 pb-2">THÊM MỚI LOẠI NGUYÊN LIỆU</h2>
+       
+    </div>
+
+ 
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-4">         
+                <div class="">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                            <th scope="col">Danh mục</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Nguyên liệu</td>
+                            </tr>
+                            <tr>
+                                <td>Loại nguyên liệu</td>
+                            </tr>
+                            <tr>
+                                <td>Nhập hàng</td>
+                            </tr>
+                            <tr>
+                                <td>Xuất hàng</td>
+                            </tr>
+                            <tr>
+                                <td>Nhà cung cấp</td>
+                            </tr>
+                        </tbody>
+                    </table>                                  
+                </div>                                 
+            </div>  
+            <div class="col-8">
+                <div class="form-container ml-5">
+                    <h4>Thông tin loại nguyên liệu</h4>
+                    <form action="{{ route('admin.materials.store') }}" method="POST">
+                        @csrf
+                        <div class="form-group row">
+                            <label for="manv" class="col-sm-2 col-form-label form_label">Mã loại</label>
+                            <div class="col-sm-9">
+                            <input type="text" class="form-control" name="manv" id="manv">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="vtlv" class="col-sm-2 col-form-label form_label">Tên loại</label>
+                                <div class="col-sm-9">
+                                    <select class=" form-control">
+                                        <option class="">Rau củ</option>
+                                        <option class="">Gia vị</option>
+                                        <option class="">Thực phẩm khô</option>
+                                        <option class="">Thực phẩm tươi sống</option>
+                                        <option class="">Thực phẩm đông lạnh</option>
+                                        <option class="">Thực phẩm đống hộp</option> 
+                                        <option class="">Đồ uống có cồn</option>
+                                        <option class="">Đồ uống không cồn</option>                               
+                                    </select>                                        
+                                </div>
+                        </div>                
+                        <div class="form-group row float-right mr-5 mt-3">
+                            <div class="form-group form-check">
+                            <button type="submit" class="btn btn_item mr-2">Lưu</button>
+                            <button type="submit" class="btn border border-dark text-dark bg-light mr-3"><a href="./list_emp.html"></a>Hủy</button>                    
+        
+                            </div> 
+                        </div>
+                    </form>   
+                </div>
+            </div>
+        </div>
+    </div>
+
+@endsection
+
+
+
+
+
+
+
+
+
+
+
+@extends('admin.layout')
+
+@section('content')
+<title>Nguyên liệu</title>
+<style>
+            html, body {
+            width: 100%;
+            height: 100%;
+            font-size: 18px;
+            color: #222;
+        }
+
+        .color {
+            background-color: rgb(214, 91, 47) !important;
+        }
+        .navbar {
+            background-color: rgb(214, 91, 47) !important;
+
+        }
+
+        .navbar li a {
+            color: #fff !important;
+        }
+
+        /* hover: di chuyển chuột đến thì màu đen */
+        .navbar li a:hover{   
+            color:black !important;
+        }
+    </style>
+
+
+
+
+<div class="form-group form-check float-right mt-3">
+        <a href="" class="mr-4 text-dark"><i class="fas fa-plus"></i> Thêm mới</a>
+        <a href="" class="mr-3 text-dark"><i class="fas fa-download"></i> Xuất excel</a>
+     </div>
+
+
+    </div> 
+        <h2 class="text-center mb-5" style="margin-top: 6%;">DANH SÁCH NGUYÊN LIỆU</h2>   
+    </div>
+<div class="container-fluid">
+  <table class="table table-bordered table-striped text-center">
+  <thead>
+      <tr>
+        <!-- <th scope="col">STT</th> -->
+        <th scope="col">Mã nguyên liệu</th>
+        <th scope="col">Tên nguyên liệu</th>
+        <th scope="col">Loại nguyên liệu</th>
+        <th scope="col">Điều chỉnh</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach($materials as $material)
+      <tr>
+        <!-- <th scope="row">1</th> -->
+        <td>{{ $material->manguyenlieu }}</td>
+        <td>{{ $material->tennguyenlieu }}</td>
+        <td>{{ $material->maloai }}</td>
+        <td>
+          <a href="{{ route('admin.materials.edit', $material) }}"><i class="fas fa-pen mr-5"></i></a>
+          <a href="{{ route('admin.materials.destroy', $material) }}"><i class="fas fa-trash-alt"></i></a>
+        </td>
+      </tr>
+      @endforeach
+    </tbody>
+  </table>
+
+</div>
+@endsection
+
+
+
+
+
+
+
+
+
+
+
+@extends('admin.layout')
+
+@section('content')
+<title>Loại nguyên liệu</title>
+<style>
+            html, body {
+            width: 100%;
+            height: 100%;
+            font-size: 18px;
+            color: #222;
+        }
+
+        .color {
+            background-color: rgb(214, 91, 47) !important;
+        }
+        .navbar {
+            background-color: rgb(214, 91, 47) !important;
+
+        }
+
+        .navbar li a {
+            color: #fff !important;
+        }
+
+        /* hover: di chuyển chuột đến thì màu đen */
+        .navbar li a:hover{   
+            color:black !important;
+        }
+    </style>
+
+    <div class="form-group form-check float-right mt-3">
+        <a href="/admin/typematerials/create" class="mr-4 text-dark"><i class="fas fa-plus"></i> Thêm mới</a>
+        <a href="" class="mr-3 text-dark"><i class="fas fa-download"></i> Xuất excel</a>
+    </div>
+
+   </div> 
+        <h2 class="text-center mb-5" style="margin-top: 6%;">DANH SÁCH NGUYÊN LIỆU</h2>   
+    </div>
+<div class="container-fluid">
+  <table class="table table-bordered table-striped text-center">
+  <thead>
+      <tr>
+        <!-- <th scope="col">STT</th> -->
+        <th scope="col">Mã loại</th>
+        <th scope="col">Tên loại</th>
+        <th scope="col">Điều chỉnh</th>
+      
+      </tr>
+    </thead>
+    <tbody>
+    @if(isset($typematerials))
+      @foreach($typematerials as $typematerial)
+      <tr>
+        <!-- <th scope="row">1</th> -->
+        <td>{{ $typematerial->maloai }}</td>
+        <td>{{ $typematerial->tenloai }}</td>
+        <td>
+          <a href="{{ route('admin.typematerials.edit', $typematerial ) }}"><i class="fas fa-pen mr-5"></i></a>
+          <a href="{{ route('admin.typematerials.destroy', $typematerial ) }}"><i class="fas fa-trash-alt"></i></a>
+        </td>
+      </tr>
+      @endforeach
+    @endif
+    </tbody>
+  </table>
+
+</div>
+@endsection
