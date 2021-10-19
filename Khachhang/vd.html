@@ -1,200 +1,252 @@
+//migration
+public function up()
+{
+    Schema::create('dishes', function (Blueprint $table) {
+        $table->id();
+        $table->string('name');
+        $table->string('image');
+        $table->text('description');
+        $table->foreignId('typeofdish_id');
+        // $table->timestamps();
+    });
+}
+
+
+
+
+
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Guest\HomepageController;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\MaterialController;
-use App\Http\Controllers\Admin\TypeMaterialController;
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Models\Dish;
+use App\Models\Typeofdish;
+use Illuminate\Http\Request;
+
+class DishController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $dishes = Dish::all();
+        return view('admin.dish.index', compact('dishes'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        $typeofdishes = Typeofdish::all();
+        return view('admin.dish.create', compact('typeofdishes'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+        
+            // 'name' => 'required|string', 
+            'name' => ['required', 'string'],
+            'image' => ['required', 'file'],
+            'description' => 'required',
+            'typeofdish_id' => ['required', 'exists:typeofdishes,id'],
+        ]);
+
+        $data['image'] = $request->file('image')->store('public/dish');
+
+        Dish::create($data);
+        return redirect()->route('admin.dishes.index');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Dish  $dish
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Dish $dish)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Dish  $dish
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Dish $dish)
+    {
+        return view('admin.dish.edit', compact('dish'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Dish  $dish
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Dish $dish)
+    {
+        $data = $request->validate([
+            
+            // 'name' => 'required|string', 
+            'name' => ['required', 'string'],
+            'image' => ['required', 'string'],
+            'description' => 'required',
+        ]);
+        $dish->update($data);
+        return redirect()->route('admin.dishes.index');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Dish  $dish
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Dish $dish)
+    {
+        $dish->delete();
+        return redirect()->route('admin.dishes.index');
+    }
+}
 
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//modal
+use HasFactory;
+public $timestamps = false;
+protected $fillable = ['name','image','description' ,'typeofdish_id'];
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
-
-Route::get('/guest.homepage.index', function () {
-    return view('guest.homepage.index');
-})->middleware(['auth'])->name('guest.homepage.index');
-
-require __DIR__.'/auth.php';
+public function typeofdish()
+{
+    return $this->belongsTo(Typeofdish::class, 'typeofdish_id');
+}
 
 
 
-
-
-//khách hàng
-Route::get('/',[HomepageController::class, 'index']);
-
-// nhanvien
-Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function (){
-    Route::get('/', [DashboardController::class, 'index']);
-
-    // Route:: get('/typematerials', [TypeMaterialController::class ,'index']);
-    //nhầm cái tronlloer // thấy k 
-    //typematerials/create reoute nè
-
-    
-    
-
-    //chỉ vào controller cho đúng đi
-        //danh sách thêm sửa xóa loại nguyên liệu
-        //sao k có controoler 
-
-
-        //danh sách thêm sửa xóa nguyên liệu
-        Route::resource('materials', MaterialController::class);
-        Route:: get('/materials/create', [MaterialController::class ,'create']);
-
-        // Route::resource('typematerials', TypeMaterialController::class);
-
-
-});
-
-?>
-
-
-
-
-
-
-
-
-
-
+//create
 
 @extends('admin.layout')
 
 @section('content')
-<title>Loại nguyên liệu</title>
-
-    <style>
-            html, body {
-            width: 100%;
-            height: 100%;
-            font-size: 18px;
-            color: #222;
-        }
-
-        .color {
-            background-color: rgb(214, 91, 47) !important;
-        }
-
-        .color2 {
-            background-color: rgb(167, 192, 230);
-        }
-        .navbar {
-            background-color: rgb(214, 91, 47) !important;
-
-        }
-
-        .navbar li a {
-            color: #fff !important;
-        }
-
-        /* hover: di chuyển chuột đến thì đổi màu */
-        .navbar li a:hover{   
-            color:black !important;
-        }
-
-        .btn {
-            text-decoration: none;
-            padding: 6px 25px;
-            font-size: 18px;
-            
-        }
-
-        .btn_item {
-            background-color: rgb(214, 91, 47);
-            color: #fff;
-        }
-    </style>
-
+<title>Thêm mới món ăn</title>
     
 
-    <div class="">
-      <h2 class="text-center pt-5 pb-2">THÊM MỚI LOẠI NGUYÊN LIỆU</h2>
-       
-    </div>
-
  
-    <div class="container mt-5">
+    <div class="container-fluid p-0">
         <div class="row">
-            <div class="col-4">         
-                <div class="">
+            <div class="col-2">         
+                <div class="card-body">
+                    <div class="card" style="height:680px">
                     <table class="table">
                         <thead>
                             <tr>
-                            <th scope="col">Danh mục</th>
+                            <th scope="col" class="bg-secondary text-white"><h5>Danh mục</h5></th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="bg-light">
                             <tr>
-                                <td>Nguyên liệu</td>
+                                <td><i class="fas fa-atom mr-2"></i>Món ăn</td>
                             </tr>
                             <tr>
-                                <td>Loại nguyên liệu</td>
+                                <td><i class="fas fa-atom mr-2"></i><a href="/admin/typeofdishes">Loại món ăn</a></td>
                             </tr>
                             <tr>
-                                <td>Nhập hàng</td>
+                                <td><i class="far fa-calendar-minus mr-2"></i>Nhập hàng</td>
                             </tr>
                             <tr>
-                                <td>Xuất hàng</td>
+                                <td><i class="far fa-calendar-minus mr-2"></i>Xuất hàng</td>
                             </tr>
                             <tr>
-                                <td>Nhà cung cấp</td>
+                                <td><i class="fas fa-hourglass-end mr-2"></i>Hàng tồn kho</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fas fa-house-user mr-2"></i>Nhà cung cấp</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fab fa-elementor mr-2"></i>Thống kê kho hàng</td>
                             </tr>
                         </tbody>
                     </table>                                  
-                </div>                                 
-            </div>  
-            <div class="col-8">
-                <div class="form-container ml-5">
-                    <h4>Thông tin loại nguyên liệu</h4>
-                    <form action="{{ route('admin.materials.store') }}" method="POST">
+                </div>  
+                </div>                               
+            </div>
+            <div class="col-10">
+                <div class="row">
+                    <div class="col-12 text-center mt-5">
+                        <h2>THÊM MỚI MÓN ĂN</h2>
+                    </div>
+                    <div class="col-8">
+                    <div class="form-container ml-5 mt-5">
+                    <h5>Nhập thông tin:</h5>
+                    <form action="{{ route('admin.dishes.store') }}" method="post" enctype="multipart/form-data">
                         @csrf
-                        <div class="form-group row">
-                            <label for="manv" class="col-sm-2 col-form-label form_label">Mã loại</label>
-                            <div class="col-sm-9">
-                            <input type="text" class="form-control" name="manv" id="manv">
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                        <div class="form-group row mt-4">
+                            <label for="name" class="col-sm-3 col-form-label form_label">Tên món ăn</label>
+                            <div class="col-sm-8">
+                            <input type="text" class="form-control" name="name" id="name">
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label for="vtlv" class="col-sm-2 col-form-label form_label">Tên loại</label>
-                                <div class="col-sm-9">
-                                    <select class=" form-control">
-                                        <option class="">Rau củ</option>
-                                        <option class="">Gia vị</option>
-                                        <option class="">Thực phẩm khô</option>
-                                        <option class="">Thực phẩm tươi sống</option>
-                                        <option class="">Thực phẩm đông lạnh</option>
-                                        <option class="">Thực phẩm đống hộp</option> 
-                                        <option class="">Đồ uống có cồn</option>
-                                        <option class="">Đồ uống không cồn</option>                               
-                                    </select>                                        
-                                </div>
-                        </div>                
-                        <div class="form-group row float-right mr-5 mt-3">
+                        <div class="form-group row mt-4">
+                            <label for="typeofdish_id" class="col-sm-3 col-form-label form_label">Loại món ăn</label>
+                            
+                            <div class="col-sm-8">
+                            <select class="custom-select" name="typeofdish_id">
+                                <option selected>Chọn</option>
+                                @if(isset($typeofdishes))
+                                @foreach($typeofdishes as $typeofdish)
+                                    <option value="{{ $typeofdish->id }}">{{ $typeofdish->name}}</option>
+                                @endforeach
+                                @endif
+                            </select>
+                            </div>
+                        </div>
+                        <div class="form-group row mt-4">
+                            <label for="image" class="col-sm-3 col-form-label form_label">Hình ảnh</label>
+                            <div class="form-group ml-3 mt-2">     
+                                <input type="file" class="form-control-file" name="image" id="image">
+                            </div>
+                        </div>
+                        <div class="form-group row mt-3">
+                            <label for="description" class="col-sm-3 col-form-label form_label">Mô tả</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="description" id="description">
+                            </div>
+                        </div>
+                        <div class="form-group row float-right mr-5 mt-3" >
                             <div class="form-group form-check">
-                            <button type="submit" class="btn btn_item mr-2">Lưu</button>
-                            <button type="submit" class="btn border border-dark text-dark bg-light mr-3"><a href="./list_emp.html"></a>Hủy</button>                    
-        
+                            <button type="submit" class="btn btn_item">Lưu</button>
+                            <button type="submit" class="btn border border-dark text-dark bg-light"><a href="#"></a>Hủy</button>                            
                             </div> 
                         </div>
                     </form>   
+                </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -204,161 +256,204 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function (){
 
 
 
-
-
-
-
-
-
-
+//index
 
 @extends('admin.layout')
 
 @section('content')
-<title>Nguyên liệu</title>
-<style>
-            html, body {
-            width: 100%;
-            height: 100%;
-            font-size: 18px;
-            color: #222;
-        }
-
-        .color {
-            background-color: rgb(214, 91, 47) !important;
-        }
-        .navbar {
-            background-color: rgb(214, 91, 47) !important;
-
-        }
-
-        .navbar li a {
-            color: #fff !important;
-        }
-
-        /* hover: di chuyển chuột đến thì màu đen */
-        .navbar li a:hover{   
-            color:black !important;
-        }
-    </style>
+<title>Món ăn</title>
 
 
-
-
-<div class="form-group form-check float-right mt-3">
-        <a href="" class="mr-4 text-dark"><i class="fas fa-plus"></i> Thêm mới</a>
-        <a href="" class="mr-3 text-dark"><i class="fas fa-download"></i> Xuất excel</a>
-     </div>
-
-
-    </div> 
-        <h2 class="text-center mb-5" style="margin-top: 6%;">DANH SÁCH NGUYÊN LIỆU</h2>   
-    </div>
 <div class="container-fluid">
-  <table class="table table-bordered table-striped text-center">
-  <thead>
-      <tr>
-        <!-- <th scope="col">STT</th> -->
-        <th scope="col">Mã nguyên liệu</th>
-        <th scope="col">Tên nguyên liệu</th>
-        <th scope="col">Loại nguyên liệu</th>
-        <th scope="col">Điều chỉnh</th>
-      </tr>
-    </thead>
-    <tbody>
-      @foreach($materials as $material)
-      <tr>
-        <!-- <th scope="row">1</th> -->
-        <td>{{ $material->manguyenlieu }}</td>
-        <td>{{ $material->tennguyenlieu }}</td>
-        <td>{{ $material->maloai }}</td>
-        <td>
-          <a href="{{ route('admin.materials.edit', $material) }}"><i class="fas fa-pen mr-5"></i></a>
-          <a href="{{ route('admin.materials.destroy', $material) }}"><i class="fas fa-trash-alt"></i></a>
-        </td>
-      </tr>
-      @endforeach
-    </tbody>
-  </table>
+        <div class="row">
+            <div class="col-2">         
+                <div class="card-body">
+                    <div class="card" style="height:680px">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                            <th scope="col" class="bg-secondary text-white"><h5>Danh mục</h5></th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-light">
+                            <tr>
+                                <td><i class="fas fa-atom mr-2"></i>Món ăn</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fas fa-atom mr-2"></i><a href="/admin/typeofdishes">Loại món ăn</a></td>
+                            </tr>
+                            <tr>
+                                <td><i class="far fa-calendar-minus mr-2"></i>Nhập hàng</td>
+                            </tr>
+                            <tr>
+                                <td><i class="far fa-calendar-minus mr-2"></i>Xuất hàng</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fas fa-hourglass-end mr-2"></i>Hàng tồn kho</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fas fa-house-user mr-2"></i>Nhà cung cấp</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fab fa-elementor mr-2"></i>Thống kê kho hàng</td>
+                            </tr>
+                        </tbody>
+                    </table>                                  
+                </div>  
+                </div>                               
+            </div>
+            <div class="col-10">
+                <div class="row">
+                    <div class="col-12 mt-3">
+                        <div class="form-group form-check float-right">
+                            <a href="/admin/dishes/create" class="mr-4 text-dark"><i class="fas fa-plus"></i> Thêm mới</a>
+                            <a href="" class="mr-3 text-dark"><i class="fas fa-download"></i> Xuất excel</a>
+                        </div>
+                        <h2 class="text-center mt-5">DANH SÁCH MÓN ĂN</h2>
+                    </div>
+                    <div class="col-12 mt-4">
 
-</div>
+                        <div class="container">
+                        <table class="table table-bordered table-striped text-center">
+                        <thead>
+                            <tr>
+                              <!-- <th scope="col">STT</th> -->
+                              <th scope="col">Mã món ăn</th>
+                              <th scope="col">Tên món ăn</th>
+                              <th scope="col">Tên loại</th>
+                              <th scope="col">Hình ảnh</th>
+                              <th scope="col">Mô tả</th>
+                              <th scope="col">Điều chỉnh</th>
+                            
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @if(isset($dishes))
+                        @foreach($dishes as $dish)
+                            <tr>
+                              <!-- <th scope="row">1</th> -->
+                                <td>{{ $dish->id }}</td>
+                                <td>{{ $dish->name }}</td>
+                                <td>{{ $dish->typeofdish->name??'error'}}</td>
+                                <td>
+                                    <img src="{{ Storage::url($dish->image) }}" alt="" width="300px">
+                                </td>
+                                <td>{{ $dish->discription }}</td>
+                                <td>
+                                    <a href="{{ route('admin.dishes.show', $dish ) }}"><i class="fas fa-eye mr-5"></i></a>
+                                    <a href="{{ route('admin.dishes.edit', $dish ) }}"><i class="fas fa-pen mr-4"></i></a>
+
+                                    <form action="{{ route('admin.dishes.destroy', $dish) }}" method="post" class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button href="" type="submit" class="btn btn-white"><i class="fas fa-trash-alt"></i></button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                        @endif
+                        </tbody>
+                        </table>
+                      </div>             
+                    </div>
+                </div>
+            </div>
+        </div>
+  </div>
+
 @endsection
 
 
-
-
-
-
-
-
-
-
+ 
+//edit
 
 @extends('admin.layout')
 
 @section('content')
-<title>Loại nguyên liệu</title>
-<style>
-            html, body {
-            width: 100%;
-            height: 100%;
-            font-size: 18px;
-            color: #222;
-        }
+<title>Sửa món ăn</title>
+    
 
-        .color {
-            background-color: rgb(214, 91, 47) !important;
-        }
-        .navbar {
-            background-color: rgb(214, 91, 47) !important;
-
-        }
-
-        .navbar li a {
-            color: #fff !important;
-        }
-
-        /* hover: di chuyển chuột đến thì màu đen */
-        .navbar li a:hover{   
-            color:black !important;
-        }
-    </style>
-
-    <div class="form-group form-check float-right mt-3">
-        <a href="/admin/typematerials/create" class="mr-4 text-dark"><i class="fas fa-plus"></i> Thêm mới</a>
-        <a href="" class="mr-3 text-dark"><i class="fas fa-download"></i> Xuất excel</a>
+ 
+    <div class="container-fluid p-0">
+        <div class="row">
+            <div class="col-2">         
+                <div class="card-body">
+                    <div class="card" style="height:680px">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                            <th scope="col" class="bg-secondary text-white"><h5>Danh mục</h5></th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-light">
+                            <tr>
+                                <td><i class="fas fa-atom mr-2"></i>Món ăn</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fas fa-atom mr-2"></i><a href="/admin/typeofdishes">Loại món ăn</a></td>
+                            </tr>
+                            <tr>
+                                <td><i class="far fa-calendar-minus mr-2"></i>Nhập hàng</td>
+                            </tr>
+                            <tr>
+                                <td><i class="far fa-calendar-minus mr-2"></i>Xuất hàng</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fas fa-hourglass-end mr-2"></i>Hàng tồn kho</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fas fa-house-user mr-2"></i>Nhà cung cấp</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fab fa-elementor mr-2"></i>Thống kê kho hàng</td>
+                            </tr>
+                        </tbody>
+                    </table>                                  
+                </div>  
+                </div>                               
+            </div>
+            <div class="col-10">
+                <div class="row">
+                    <div class="col-12 text-center mt-5">
+                        <h2>THÊM MỚI món ăn</h2>
+                    </div>
+                    <div class="col-8">
+                    <div class="form-container ml-5 mt-5">
+                    <h5>Nhập thông tin:</h5>                    
+                    <form action="{{ route('admin.dishes.update', $dish) }}" method="post">
+                        @csrf
+                        @method('PATCH')                       
+                        <div class="form-group row mt-4">
+                            <label for="name" class="col-sm-3 col-form-label form_label">Tên món ăn</label>
+                            <div class="col-sm-8">
+                            <input type="text" class="form-control" name="name" id="name" value="{{ $dish->name }}">
+                            </div>
+                        </div>
+                        <div class="form-group row mt-4">
+                            <label for="image" class="col-sm-3 col-form-label form_label">Hình ảnh</label>
+                            <div class="form-group ml-3 mt-2">     
+                                <input type="file" class="form-control-file" name="image" id="image">
+                            </div>
+                        </div>
+                        <div class="form-group row mt-4">
+                            <label for="description" class="col-sm-3 col-form-label form_label">Mô tả</label>
+                            <div class="col-sm-8">
+                            <input type="text" class="form-control" name="description" id="description">
+                            </div>
+                        </div>
+                        <div class="form-group row float-right mr-5 mt-3" >
+                            <div class="form-group form-check">
+                            <button type="submit" class="btn btn_item">Lưu</button>
+                            <button type="submit" class="btn border border-dark text-dark bg-light"><a href="#"></a>Hủy</button>                    
+        
+                            </div> 
+                        </div>
+                    </form>   
+                </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-   </div> 
-        <h2 class="text-center mb-5" style="margin-top: 6%;">DANH SÁCH NGUYÊN LIỆU</h2>   
-    </div>
-<div class="container-fluid">
-  <table class="table table-bordered table-striped text-center">
-  <thead>
-      <tr>
-        <!-- <th scope="col">STT</th> -->
-        <th scope="col">Mã loại</th>
-        <th scope="col">Tên loại</th>
-        <th scope="col">Điều chỉnh</th>
-      
-      </tr>
-    </thead>
-    <tbody>
-    @if(isset($typematerials))
-      @foreach($typematerials as $typematerial)
-      <tr>
-        <!-- <th scope="row">1</th> -->
-        <td>{{ $typematerial->maloai }}</td>
-        <td>{{ $typematerial->tenloai }}</td>
-        <td>
-          <a href="{{ route('admin.typematerials.edit', $typematerial ) }}"><i class="fas fa-pen mr-5"></i></a>
-          <a href="{{ route('admin.typematerials.destroy', $typematerial ) }}"><i class="fas fa-trash-alt"></i></a>
-        </td>
-      </tr>
-      @endforeach
-    @endif
-    </tbody>
-  </table>
-
-</div>
 @endsection

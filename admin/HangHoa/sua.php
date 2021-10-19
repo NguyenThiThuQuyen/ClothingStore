@@ -1,10 +1,24 @@
 <?php
     include '../config/config.php';
     $loaihanghoa = mysqli_query($conn, "SELECT * FROM loaihanghoa");
+    $hanghoa = mysqli_query($conn, "SELECT * FROM HangHoa hh join LoaiHangHoa loai on hh.MaLoaiHang = loai.MaLoaiHang");
 
-    if(isset($_POST['TenLoaiHang'])){
-        $TenLoaiHang = $_POST["TenLoaiHang"];
-        $sql = "INSERT INTO loaihanghoa(TenLoaiHang) VALUES ( '$TenLoaiHang')";
+    if(isset($_GET['MSHH'])){
+        $MSHH = $_GET['MSHH'];
+        $data = mysqli_query($conn,"SELECT * FROM hanghoa WHERE MSHH = $MSHH ");
+        $hh = mysqli_fetch_assoc($data);
+    }
+
+    if(isset($_POST['TenHH'])){
+        $TenHH = $_POST["TenHH"];
+        $QuyCach = $_POST["QuyCach"];
+        $Gia = $_POST["Gia"];
+        $SoLuongHang = $_POST["SoLuongHang"];
+        $MaLoaiHang = $_POST["MaLoaiHang"];
+
+        $sql = "UPDATE hanghoa SET TenHH = '$TenHH', QuyCach = '$QuyCach', Gia = '$Gia', SoLuongHang = '$SoLuongHang'
+                 WHERE MSHH = $MSHH";
+
         $query = mysqli_query($conn, $sql);
         if($query){
             header('location: danhsach.php');
@@ -120,14 +134,33 @@
             <div class="col-10">
                 <div class="row">
                     <div class="col-12 mt-3">                    
-                            <form action="" method="post"> 
-                                    <h6>Nhập thông tin:</h6>
+                            <form class="mx-auto" action="" method="post"> 
+                                    <h6 class="mt-5">Nhập thông tin:</h6>
                                         <div class="form-group row mt-5">
-                                            <label for="TenLoaiHang" class="col-sm-2 col-form-label form_label">Tên loại</label>
+                                            <label for="TenHH" class="col-sm-2 col-form-label form_label">Tên hàng hóa</label>
                                             <div class="col-sm-6">
-                                                <input type="text" class="form-control" name="TenLoaiHang" id="TenLoaiHang">
+                                                <input type="text" class="form-control" name="TenHH" id="TenHH" value="<?php echo $hh['TenHH'] ?>">
                                             </div>
-                                        </div>                                
+                                        </div>
+                                        <div class="form-group row mt-5">
+                                            <label for="QuyCach" class="col-sm-2 col-form-label form_label">Quy cách</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="form-control" name="QuyCach" id="QuyCach" value="<?php echo $hh['QuyCach'] ?>">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mt-5">
+                                            <label for="Gia" class="col-sm-2 col-form-label form_label">Giá</label>
+                                            <div class="col-sm-6">
+                                                <input type="munber" class="form-control" name="Gia" id="Gia" value="<?php echo $hh['Gia'] ?>">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mt-5">
+                                            <label for="SoLuongHang" class="col-sm-2 col-form-label form_label">Số lượng</label>
+                                            <div class="col-sm-6">
+                                                <input type="munber" class="form-control" name="SoLuongHang" id="SoLuongHang" value="<?php echo $hh['SoLuongHang'] ?>">
+                                            </div>
+                                        </div>
+                           
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                     <button type="submit" class="btn btn-outline-light color-btn my-2 my-sm-0 text-dark" name="submit" id="submit">Save changes</button>
                                 

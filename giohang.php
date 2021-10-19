@@ -1,40 +1,4 @@
 
-<?php
-    include '../admin/config/config.php';
-    session_start();
-// session_destroy();
-    if(isset($_GET['MSHH'])){
-        $MSHH = $_GET['MSHH'];
-    }
-
-    $query = mysqli_query($conn, "SELECT * FROM hanghoa hhh join hinhhanghoa ma on hhh.MSHH = ma.MSHH");
-
-    // $query = mysqli_query($conn, "SELECT * FROM hanghoa WHERE MSHH = ".$_GET['MSHH'] );
-    // $query = mysqli_query($conn, "SELECT * FROM hanghoa WHERE MSHH = ".$_GET['MSHH'] );
-
-    if($query){
-        $hanghoa = mysqli_fetch_assoc($query);
-    }
-
-    $item = [
-        'MSHH' => $hanghoa['MSHH'],
-        'TenHH' => $hanghoa['TenHH'],
-        'Hinh' => $hanghoa['Hinh'],
-        'Gia' => $hanghoa['Gia'],
-        'SoLuong' => 1
-    ];
-
-    $_SESSION['cart'][$MSHH] = $item;
-    // echo "<pre>";
-    // print_r($_SESSION['cart']);
-
-    $cart = (isset($_SESSION['cart']))? $_SESSION['cart'] : [];
-?>
-
-
-
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -111,10 +75,10 @@
                 </nav>
             </div>
             <div class="col-3">
-                <!-- <ul class="navbar-nav mr-auto">
+                <ul class="navbar-nav mr-auto">
                     <li class="nav-item active ml-5">
                       <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"><i class="fas fa-shopping-cart fa-1x"></i> Giỏ hàng<span class="sr-only">(current)</span></a>
-                </li> -->
+                </li>
             </div>
         </div>
 
@@ -143,28 +107,24 @@
 
 
 <div class="container">
-<table class="table">
+    <table class="table">
         <thead>
           <tr>
             <th scope="col">#</th>
             <th scope="col">Tên sản phẩm</th>
-            <th scope="col">Hình ảnh</th>
             <th scope="col">Giá bán</th>
             <th scope="col">Số lượng</th>
-            <!-- <th scope="col">Tạm tính</th> -->
+            <th scope="col">Tạm tính</th>
           </tr>
         </thead>
         <tbody>
-        <?php foreach ($cart as $key => $value) ?>
-            <tr>
-                <th scope="row"><?php echo $key ++ ?></th>
-                <td><?php echo $value['TenHH'] ?></td>
-                <td><img src="../picture/<?php echo $value['Hinh'] ?>" alt="" width="70"></td>
-                        
-                <td><?php echo $value['Gia'] ?></td>
-                <td><?php echo $value['SoLuong'] ?></td>
-               
-            </tr>
+          <tr>
+            <th scope="row"></th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
        
         </tbody>
       </table>

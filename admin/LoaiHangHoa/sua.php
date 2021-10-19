@@ -1,10 +1,16 @@
 <?php
     include '../config/config.php';
-    $loaihanghoa = mysqli_query($conn, "SELECT * FROM loaihanghoa");
+    // $loaihanghoa = mysqli_query($conn, "SELECT * FROM loaihanghoa");
+
+    if(isset($_GET['MaLoaiHang'])){
+        $MaLoaiHang = $_GET['MaLoaiHang'];
+        $data = mysqli_query($conn,"SELECT * FROM loaihanghoa WHERE MaLoaiHang = $MaLoaiHang ");
+        $lhh = mysqli_fetch_assoc($data);
+    }
 
     if(isset($_POST['TenLoaiHang'])){
         $TenLoaiHang = $_POST["TenLoaiHang"];
-        $sql = "INSERT INTO loaihanghoa(TenLoaiHang) VALUES ( '$TenLoaiHang')";
+        $sql = "UPDATE loaihanghoa SET TenLoaiHang = '$TenLoaiHang' WHERE MaLoaiHang = $MaLoaiHang";
         $query = mysqli_query($conn, $sql);
         if($query){
             header('location: danhsach.php');
@@ -13,7 +19,6 @@
             echo "Lỗi";
         }
       }
-
 ?>
 
 <!DOCTYPE html>
@@ -23,10 +28,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trang chủ</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Satisfy&display=swap" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Saira+Semi+Condensed:wght@200&family=Satisfy&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+    integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Satisfy&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Saira+Semi+Condensed:wght@200&family=Satisfy&display=swap" rel="stylesheet">
 </head>
 
 <style>
@@ -112,8 +118,8 @@
                 <div class="card-body">
                     <div class="card" style="height:640px">
                     <?php
-                        include('../layout/menu.php');
-                    ?>                                   
+                        include('../layout/header.php');
+                    ?>                  
                 </div>  
                 </div>                               
             </div>
@@ -125,10 +131,10 @@
                                         <div class="form-group row mt-5">
                                             <label for="TenLoaiHang" class="col-sm-2 col-form-label form_label">Tên loại</label>
                                             <div class="col-sm-6">
-                                                <input type="text" class="form-control" name="TenLoaiHang" id="TenLoaiHang">
+                                                <input type="text" class="form-control" name="TenLoaiHang" id="TenLoaiHang" value="<?php echo $lhh['TenLoaiHang'] ?>">
                                             </div>
                                         </div>                                
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                     <button type="submit" class="btn btn-outline-light color-btn my-2 my-sm-0 text-dark" name="submit" id="submit">Save changes</button>
                                 
                                 </div>
