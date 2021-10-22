@@ -26,8 +26,10 @@
     </div>
         <nav>
             <form class="form-inline mr-5">
-                <input class="form-control mr-sm-2" style="width: 65%;" type="search" placeholder="Tìm kiếm cùng Quinn" aria-label="Search">
-                <button class="btn btn-outline-light color-btn my-2 my-sm-0 text-dark"  type="submit">Tìm kiếm</button>
+                <!-- <input class="form-control mr-sm-2" style="width: 65%;" type="search" placeholder="Tìm kiếm cùng Quinn" aria-label="Search"> -->
+                <!-- <button class="btn btn-outline-light color-btn my-2 my-sm-0 text-dark"  type="submit">Đăng xuất</button> -->
+                <!-- <p><?php echo $_SESSION['dangnhap'] ?></p> -->
+                <a href="../admin/dangxuat.php" name="logout">Đăng xuất</a>
             </form>
         </nav>
 </nav>

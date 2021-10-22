@@ -1,3 +1,10 @@
+<?php
+    include('../admin/config/config.php');
+    session_start();
+    if(!isset($_SESSION['username'])){
+        header('location: ../login.php');
+    }
+?>
 
 <?php
     include '../config/config.php';

@@ -1,4 +1,12 @@
 <?php
+    include('../admin/config/config.php');
+    session_start();
+    if(!isset($_SESSION['username'])){
+        header('location: ../login.php');
+    }
+?>
+
+<?php
     include '../config/config.php';
     $loaihanghoa = mysqli_query($conn, "SELECT * FROM loaihanghoa");
     $hanghoa = mysqli_query($conn, "SELECT * FROM HangHoa hh join LoaiHangHoa loai on hh.MaLoaiHang = loai.MaLoaiHang");

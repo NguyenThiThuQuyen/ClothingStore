@@ -7,9 +7,9 @@
         $MSHH = $_GET['MSHH'];
     }
 
-    $query = mysqli_query($conn, "SELECT * FROM hanghoa hhh join hinhhanghoa ma on hhh.MSHH = ma.MSHH");
+    // $query = mysqli_query($conn, "SELECT * FROM hanghoa hhh join hinhhanghoa ma on hhh.MSHH = ma.MSHH");
 
-    // $query = mysqli_query($conn, "SELECT * FROM hanghoa WHERE MSHH = ".$_GET['MSHH'] );
+    $query = mysqli_query($conn, "SELECT * FROM hanghoa WHERE MSHH = ".$_GET['MSHH'] );
     // $query = mysqli_query($conn, "SELECT * FROM hanghoa WHERE MSHH = ".$_GET['MSHH'] );
 
     if($query){
@@ -24,16 +24,27 @@
         'SoLuong' => 1
     ];
 
-    $_SESSION['cart'][$MSHH] = $item;
-    // echo "<pre>";
-    // print_r($_SESSION['cart']);
 
-    $cart = (isset($_SESSION['cart']))? $_SESSION['cart'] : [];
+    if(isset($_SESSION['cart'][$MSHH])){
+        $_SESSION['cart'][$MSHH]['SoLuong'] +=1;
+        if(isset($_POST["update"])){
+            if(isset($_SESSION["cart"])){
+                foreach($_SESSION["cart"] as $value){
+                    if($_POST["SoLuong".$value["MSHH"]] <= 0){
+                        unset($_SESSION["cart"][$value["MSHH"]]);
+                    }
+                    else{
+                        $_SESSION["cart"][$value["MSHH"]]["SoLuong"] = $_POST["SoLuong".$value['MSHH']];
+                    }
+                }
+            }
+        }
+    }
+    else{
+        $_SESSION['cart'][$MSHH] = $item;
+    }
+
 ?>
-
-
-
-
 
 
 <!DOCTYPE html>
@@ -66,7 +77,6 @@
     }
 
     .navbar-bg {
-        /* background-color:rgb(233, 141, 110); */
         background-color:rgb(231, 187, 166);
     }
 
@@ -118,56 +128,50 @@
             </div>
         </div>
 
-        <!-- <div class="row">
-            <div class="col-12">
-                <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">                 
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent" style="justify-content:space-evenly;">
-                      <ul class="navbar-nav">
-                        <li class="nav-item font-familly ">
-                          <a class="nav-link text-dark" style="margin-right: 50px;" href="#"><h3>Áo</h3></span></a>
-                        </li>
-                        <li class="nav-item font-familly ">
-                          <a class="nav-link text-dark" style="margin-right: 50px;" href="#"><h3>Quần</h3></a>
-                        </li>
-                        <li class="nav-item font-familly ">
-                            <a class="nav-link text-dark" style="margin-right: 50px;" href=""><h3>Đầm</h3></a>
-                        </li>
-                        <li class="nav-item font-familly ">
-                            <a class="nav-link text-dark" style="margin-right: 50px;" href="#"><h3>Chân váy</h3></a>
-                        </li>                       
-                    </div>
-                </nav>
+        <div class="row mt-4 mb-4">
+            <div class="col-12 text-center">
+                <h2>ĐƠN HÀNG</h2>
             </div>
-        </div> -->
+        </div>
     </div>
 
 
-<div class="container">
-<table class="table">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Tên sản phẩm</th>
-            <th scope="col">Hình ảnh</th>
-            <th scope="col">Giá bán</th>
-            <th scope="col">Số lượng</th>
-            <!-- <th scope="col">Tạm tính</th> -->
-          </tr>
-        </thead>
-        <tbody>
-        <?php foreach ($cart as $key => $value) ?>
-            <tr>
-                <th scope="row"><?php echo $key ++ ?></th>
-                <td><?php echo $value['TenHH'] ?></td>
-                <td><img src="../picture/<?php echo $value['Hinh'] ?>" alt="" width="70"></td>
-                        
-                <td><?php echo $value['Gia'] ?></td>
-                <td><?php echo $value['SoLuong'] ?></td>
-               
+<form action="" method="post">
+    <div class="container">    
+        <table class="table">
+            <thead>
+            <tr>                
+                <th scope="col">Tên sản phẩm</th>
+                <th scope="col">Hình ảnh</th>
+                <th scope="col">Giá bán</th>
+                <th scope="col">Số lượng</th>
+                <th scope="col">Tạm tính</th>
             </tr>
-       
-        </tbody>
-      </table>
+            </thead>
+            <tbody>
+
+            <?php if(isset($_SESSION['cart'])){
+                $tonghoadon = 0;
+                foreach ($_SESSION['cart'] as $value){                
+                $tong = 0;
+                $tong = $value['Gia']*$value['SoLuong'];
+               
+                $tonghoadon += ($value['Gia']*$value['SoLuong']);
+            ?>
+                <tr>                
+                    <td><?php echo $value['TenHH'] ?></td>
+                    <td><img src="../picture/<?php echo $value['Hinh'] ?>" alt="" width="70"></td>
+                            
+                    <td><?php echo $value['Gia'] ?></td>
+                    <td><input type="number" min="1" name="SoLuong<?php echo $value['MSHH'] ?>" value="<?php echo $value['SoLuong'] ?>"></td>
+                    <td><?php echo number_format  ($tong,0,",",".") ?></td>               
+                </tr>
+            <?php }
+             } ?>
+            </tbody>
+        </table>
+        <button type="submit" name="update">UPDATE CART</button>
+        
 
     <button type="button" class="btn btn-outline btn-lg navbar-bg btn-light">
           <a href="#" class="text-dark" style="text-decoration: none;">Tiếp tục mua hàng</a>
@@ -180,6 +184,7 @@
             <p class="container mt-2" style="border-bottom: 2px solid #222; width:100%;"></p>
             <div>
                 Tổng tiền:
+                <?php echo number_format($tonghoadon) ?> VND
             </div>                                
             <button type="button" class="btn btn-outline btn-lg navbar-bg btn-light mt-5">
                 <a href="#" class="text-dark" style="text-decoration: none;"><i class="fas fa-check mr-2"></i>TIẾN HÀNH THANH TOÁN</a>
@@ -188,16 +193,7 @@
     </div>
 
    </div>
-
-   
-
-
-
-
-
-
-  
-
+</form>
     
    
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

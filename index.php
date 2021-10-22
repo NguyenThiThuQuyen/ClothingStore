@@ -4,10 +4,17 @@
     $loaihanghoa = mysqli_query($conn, "SELECT * FROM loaihanghoa");
     $hinhhanghoa = mysqli_query($conn, "SELECT * FROM hinhhanghoa");
     $hanghoa = mysqli_query($conn, "SELECT * FROM hanghoa");
-
-
 ?>
-
+<?php
+  session_start();
+      if (isset($_SESSION['username']) && $_SESSION['username']){
+        echo 'Bạn đã đăng nhập với tên là '.$_SESSION['username']."<br/>";
+        echo 'Click vào đây để <a href="logout.php">Logout</a>';
+      }
+      else{
+        echo 'Bạn chưa đăng nhập';
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
