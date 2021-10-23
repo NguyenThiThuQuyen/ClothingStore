@@ -1,41 +1,29 @@
 <?php
-    session_start();
-    include('../admin/config/config.php');
-    // session_destroy();
-    // if(isset($_POST['dangnhap']) && $_POST['SoDienThoai'] != '' && $_POST['password'] != ''){
-    //     $SoDienThoai = $_POST['SoDienThoai'];
-    //     $password = md5($_POST['password']);
-    //     $sql = "SELECT * FROM KhachHang WHERE SoDienThoai='$SoDienThoai' AND password = '$password' ";
-    //     $row = mysqli_query($conn, $sql);
-    //     // $row_dangnhap = mysqli_fetch_array($row);
-    //     $count = mysqli_num_rows($row);
-    //     if($count>0)
-    //     {          
-    //         $_SESSION['SoDienThoai'] = $SoDienThoai;
-    //         header("location: ../index.php");
-    //     }
-    //     else{
-    //         echo "Lỗi";
-    //     }
-    // }
 
-    $password = $_POST['password'] ?? '';
-    $username = $_POST['username'] ?? '';
-    if ( $password == '' && $username == '') {
-        echo "";
-        // require "login.html";
-    } else {        
-        $_SESSION['username'] = $username;
-        header("location: homepage.php");
+    session_start();
+    include('config/config.php');
+    // session_destroy();
+    if(isset($_POST['dangnhap']) && $_POST['username'] != '' && $_POST['password'] != ''){
+        $username = $_POST['username'];
+        $password = md5($_POST['password']);
+        $sql = "SELECT * FROM TaiKhoan WHERE username='$username' AND password = '$password' ";
+        $row = mysqli_query($conn, $sql);
+        // $row_dangnhap = mysqli_fetch_array($row);
+        $count = mysqli_num_rows($row);
+        if($count>0)
+        {          
+            $_SESSION['username'] = $username;
+            header("location: index.php");
+        }
+        else{
+            echo "Lỗi";
+        }
     }
- 
+   
 ?>
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Login</title>
         <meta charset="uft-8">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
@@ -55,7 +43,7 @@
                                 <form action="" method="post">
                                     <div class="form-container">
 
-                                        <label for="username">Tên đăng nhâp:</label>
+                                        <label for="username">Tên đăng nhập</label>
                                         <input type="text" class="form-control" name="username" id="username">
                                             <br />                           
                                         <label for="password">Mật khẩu</label>

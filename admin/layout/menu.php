@@ -1,3 +1,4 @@
+
 <table class="table">
     <thead>
         <tr>
@@ -37,9 +38,9 @@
                         <i class="fab fa-elementor mr-2"></i>Quản lý hàng hóa
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="HangHoa/danhsach.php">Hàng hóa</a>
+                        <a class="dropdown-item" href="../HangHoa/danhsach.php">Hàng hóa</a>
                         <a class="dropdown-item" href="../LoaiHangHoa/danhsach.php">Loại hàng hóa</a>
-                        <a class="dropdown-item" href="">Hình hàng hóa</a>
+                        <a class="dropdown-item" href="../HinhHangHoa/danhsach.php">Hình hàng hóa</a>
                     </div>
                 </div>
             </td>

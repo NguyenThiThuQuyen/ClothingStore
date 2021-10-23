@@ -1,97 +1,25 @@
 <?php
-    include('../admin/config/config.php');
+    include('../config/config.php');
     session_start();
     if(!isset($_SESSION['username'])){
-        header('location: ../login.php');
+        header('location: ../../dangnhap.php');
     }
 ?>
 
 <?php
     include '../config/config.php';
-    // $hanghoa = mysqli_query($conn, "SELECT * FROM loaihanghoa");
     $hinhhanghoa = mysqli_query($conn, "SELECT * FROM hinhhanghoa hhh join HangHoa ma on hhh.MSHH = ma.MSHH");
 
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Hình hàng hóa</title>
-    <link rel="stylesheet" type="text/css" href="../css/main.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Satisfy&display=swap" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Saira+Semi+Condensed:wght@200&family=Satisfy&display=swap" rel="stylesheet">
-</head>
-<style>
-    html,body {
-    font-family: 'Arial';
-    }
 
-   .font {
-        font-family: 'Satisfy', cursive;
-        font-size: 35px;
-    }
-
-    .font-familly {
-        font-family: 'Saira Semi Condensed', sans-serif;
-        font-size: 22px;
-
-    }
-
-    .navbar-bg {
-        background-color:rgb(231, 187, 166);
-    }
-
-    .color-bg {
-        background-color:rgb(243, 232, 227);
-    }
-
-    .ol-color {
-        color: rgb(224, 150, 115);
-    }
-
-    .color-btn {
-        background-color:rgb(243, 214, 201);
-    }
-
-    .btn-light:hover {
-        background-color: rgb(226, 169, 143);
-            
-    }
-
-    .img-wrap {
-            height: 330px;
-            overflow: hidden;
-    }
-
-    .img-wrap img {
-            height: auto;
-            width: 100%;
-    }
-
-    li {
-        
-        list-style-type: none;
-    }
-
-    .dropdown-menu {
-        background-color:rgb(231, 187, 166);
-    }
-
-</style>
-<body>
-    
-    <div class="container-fluid p-0">
         <?php
             include('../layout/header.php');
         ?>  
-    </div>
-
+    
     <div class="container-fluid p-0">
-        <div class="row">
+        <div class="row mr-0">
             <div class="col-2">         
                 <div class="card-body p-0">
                     <div class="card" style="height:640px">
@@ -108,7 +36,7 @@
                             <a href="./them.php" class="mr-4 text-dark"><i class="fas fa-plus"></i> Thêm mới</a>
                             <a href="" class="mr-3 text-dark"><i class="fas fa-download"></i> Xuất excel</a>
                         </div>
-                        <h2 class="text-center mt-5">DANH SÁCH HÀNG HÓA</h2>
+                        <h2 class="text-center mt-5">QUẢN LÝ HÌNH HÀNG HÓA</h2>
                     </div>
                     <div class="col-12 mt-4">
 
@@ -133,9 +61,9 @@
                               <td><img src="../../upload/<?php echo $value["Hinh"] ?>" alt="" height="90" weight="85"></td>
                               <td><?php echo $value['TenHH'] ?></td>
                               <td>
+                                <a href="xem.php?MaHinh=<?php echo $value['MaHinh'] ?>" title="Xem" class="btn btn-white"><i class="far fa-eye"></i></a>                                
                                 <a href="sua.php?MaHinh=<?php echo $value['MaHinh'] ?>" title="Sửa" class="btn btn-white"><i class="fas fa-pen mr-3"></i></a>                                
-                                <a href="xoa.php?MaHinh=<?php echo $value['MaHinh'] ?>" title="Xóa" class="btn btn-white"><i class="fas fa-trash-alt"></i></a>
-                            
+                                <a href="xoa.php?MaHinh=<?php echo $value['MaHinh'] ?>" title="Xóa" class="btn btn-white"><i class="fas fa-trash-alt"></i></a>                            
                               </td>
                             </tr>
                             <?php } ?>

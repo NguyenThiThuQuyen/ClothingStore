@@ -1,19 +1,13 @@
 <?php
+
     include '../admin/config/config.php';
     $loaihanghoa = mysqli_query($conn, "SELECT * FROM loaihanghoa");
     $hinhhanghoa = mysqli_query($conn, "SELECT * FROM hinhhanghoa");
     $hanghoa = mysqli_query($conn, "SELECT * FROM hanghoa");
-   
-?>
-  <?php
-   session_start();
-      // session_destroy();
-      if (!isset($_SESSION['username'])) {
-          header("location: ./dangnhap.php");
-      }
-  ?>
 
-  
+
+?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -91,7 +85,7 @@
                 </li>
                 <li class="nav-item">
                   <!-- <a class="nav-link" style="font-size: 20px;" href="#">Danh mục sản phẩm</a> -->
-                <div class="dropdown">
+                  <div class="dropdown">
                     <button class="btn dropdown-toggle" style="font-size: 20px;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-bars fa-1x mr-2"></i>Danh mục sản phẩm
                     </button>
@@ -102,34 +96,21 @@
                     <?php } ?>
                     <?php } ?>
                     </div>
-                </div>
+                  </div>
                 </li>
             </ul>
             <ul class="navbar-nav">
-              <li class="nav-item">
-                      <a href="./basket.php" class="text-dark" style="text-decoration: none; font-size: 20px;"><i class="fas fa-shopping-cart fa-1x mr-2"></i>Giỏ hàng</a>
-              </li>
-              
-                <li class="nav-item ml-4">
-                <div style="font-size: 20px;">                   
-                <i class="fas fa-user"></i>
-                     <?php
-                          // session_destroy();
-                          if (!isset($_SESSION['username'])) {
-                            header("location: ./dangnhap.php");
-                          } else {
-                            echo $_SESSION['username'];
-                          }
-                      ?>
-                </div>
+                <li class="nav-item">
+                    <button type="button" class="btn btn-outline btn-lg color-btn btn-light mr-3">
+                        <a href="#" class="text-dark" style="text-decoration: none;">Đăng nhập</a>
+                  </button>
                 </li>
-                <li class="nav-item ml-4">                   
-                    <a href="./dangxuat.php" name='logout' class="text-dark" style="text-decoration: none; font-size: 20px;">
-                      <i class="fas fa-sign-out-alt mr-1"></i>
-                    Đăng xuất</a>
+                <li class="nav-item">
+                    <button type="button" class="btn btn-outline btn-lg color-btn btn-light">
+                        <a href="#" class="text-dark" style="text-decoration: none;">Đăng ký</a>
+                  </button>
                 </li>
             </ul>
-            
             </div>
           </nav>
         <div class="row navbar-bg p-0">
@@ -221,28 +202,26 @@
         <div class="container">
           
         <div class="row text-center mt-5">
-           
               <?php 
-                $sql_hanghoa = mysqli_query($conn, "SELECT * FROM HangHoa hh join HinhHangHoa hinh on hh.MSHH = hinh.MSHH ");
-                if (($sql_hanghoa)) {?>
-                  <?php foreach ($sql_hanghoa as $key => $row){?>
-                    <div class="col-md-3 mt-4">
-                      <div class="card">
-                        <div class="product-top img-wrap">                         
-                            <img class="card-img-top img-wrap" src="./picture/<?php echo $row['Hinh'] ?>" alt="" >                          
+                $hanghoa = mysqli_query($conn, "SELECT * FROM HangHoa hh join HinhHangHoa hinh on hh.MSHH = hinh.MSHH WHERE MSHH = " .$_GET['MSHH']);
+                if (($hanghoa)) {?>
+                  <?php foreach ($hanghoa as $key => $row){?>
+                    <div class="col-3">
+                      <div class="product-item  ">
+                        <div class="product-top img-wrap">
+                          <a href="" class="product-1">
+                            <td><img src="../picture/<?php echo $row['Hinh'] ?>" alt="" width="70"></td>
+                          </a>
                         </div>
                         <div class="product-info m-2">
-                          <a href="" class="product-1 "><?php echo $row['TenHH'] ?></a>
-                            <div class="product-price ">Price: <?php echo $row['Gia'] ?> VND
-                            <a href="./basket.php?MSHH=<?php echo $row['MSHH'] ?>"><i class="fas fa-shopping-cart fa-1x"></i></a>
-                            
-                            </div>
+                          <a href="" class="product-1" style="font-size:14px"><?php echo $row['TenHH'] ?></a>
+                          <div class="product-price "><?php echo $row['Gia'] ?><i class="fas fa-shopping-cart fa-1x"></i></div>
                         </div>
                       </div>
                     </div>  
                   <?php } ?> 
               <?php } ?>  
-            </div>      
+            </div>
         </div>
     </div>
 

@@ -3,10 +3,11 @@
     if(isset($_POST['dangky']) && $_POST['HoTenKH'] != '' && $_POST['SoDienThoai'] != '' && $_POST['Password'] != ''){
         $HoTenKh = $_POST['HoTenKH'];
         $SoDienThoai = $_POST['SoDienThoai'];
+        $username = $_POST['username'];
         $Password = md5($_POST['Password']);
 
-        $sql = mysqli_query($conn, "INSERT INTO KhachHang(HoTenKH, SoDienThoai, Password)
-                                    VALUES ('$HoTenKh', '$SoDienThoai', '$Password')");
+        $sql = mysqli_query($conn, "INSERT INTO KhachHang(HoTenKH, SoDienThoai, username, Password)
+                                    VALUES ('$HoTenKh', '$SoDienThoai', '$username', '$Password')");
         if($sql){
             // echo "Đăng ký thành công";
             header('location: ./dangnhap.php');
@@ -99,7 +100,10 @@
                                 <br />
                             <label for="SoDienThoai">Số điện thoại</label>
                             <input type="text" name="SoDienThoai" class="form-control" id="SoDienThoai">                           
-                                <br />                           
+                                <br />
+                            <label for="username">Tên đăng nhập:</label>
+                            <input type="text" class="form-control" name="username" id="username">
+                                <br />                        
                             <label for="Password">Mật khẩu</label>
                             <input type="password" name="Password" class="form-control" id="Password">
                                 <br />
@@ -107,7 +111,7 @@
                                <button type="submit" name="dangky" class="btn btn_item float-right">Đăng ký</button>
                             </div>
                             <div class="text-center" style="margin-top: 170px;">
-                                <h6>Đã có tài khoản? <a href="./login.html" class="color">Đăng nhập</a></h6>
+                                <h6>Đã có tài khoản? <a href="./dangnhap.php" class="color">Đăng nhập</a></h6>
 
                             </div>                            
                         </div>

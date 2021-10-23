@@ -1,19 +1,8 @@
 <?php
-
     include 'admin/config/config.php';
     $loaihanghoa = mysqli_query($conn, "SELECT * FROM loaihanghoa");
     $hinhhanghoa = mysqli_query($conn, "SELECT * FROM hinhhanghoa");
     $hanghoa = mysqli_query($conn, "SELECT * FROM hanghoa");
-?>
-<?php
-  session_start();
-      if (isset($_SESSION['username']) && $_SESSION['username']){
-        echo 'Bạn đã đăng nhập với tên là '.$_SESSION['username']."<br/>";
-        echo 'Click vào đây để <a href="logout.php">Logout</a>';
-      }
-      else{
-        echo 'Bạn chưa đăng nhập';
-}
 ?>
 
 <!DOCTYPE html>
@@ -109,15 +98,16 @@
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <button type="button" class="btn btn-outline btn-lg color-btn btn-light mr-3">
-                        <a href="#" class="text-dark" style="text-decoration: none;">Đăng nhập</a>
+                        <a href="Khachhang/dangnhap.php" class="text-dark" style="text-decoration: none;">Đăng nhập</a>
                   </button>
                 </li>
                 <li class="nav-item">
                     <button type="button" class="btn btn-outline btn-lg color-btn btn-light">
-                        <a href="#" class="text-dark" style="text-decoration: none;">Đăng ký</a>
+                        <a href="Khachhang/dangky.php" class="text-dark" style="text-decoration: none;">Đăng ký</a>
                   </button>
                 </li>
             </ul>
+            
             </div>
           </nav>
         <div class="row navbar-bg p-0">
@@ -145,7 +135,7 @@
             </div>
         </div>
 
-        <div class="row p-0">
+        <div class="row mr-0">
             <div class="col-12">
                 <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">                 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent" style="justify-content:space-evenly;">
@@ -196,7 +186,7 @@
     </div>
 
     
-    <div class="row pb-5 p-0">
+    <div class="row pb-5 mr-0">
         
         <div class="col-12 mt-5">
             <p class="text-center" style="font-size: 45px;">Danh mục sản phẩm</p>                                 
@@ -222,7 +212,7 @@
                         <div class="product-info m-2">
                           <a href="" class="product-1 "><?php echo $row['TenHH'] ?></a>
                             <div class="product-price ">Price: <?php echo $row['Gia'] ?> VND
-                            <a href="Khachhang/basket.php?MSHH=<?php echo $row['MSHH'] ?>"><i class="fas fa-shopping-cart fa-1x"></i></a>
+                            <a href="./giohang.php?MSHH=<?php echo $row['MSHH'] ?>"><i class="fas fa-shopping-cart fa-1x"></i></a>
                             
                             </div>
                         </div>

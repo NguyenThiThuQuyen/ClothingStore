@@ -1,0 +1,59 @@
+html,body {
+    font-family: 'Arial';
+    }
+
+   .font {
+        font-family: 'Satisfy', cursive;
+        font-size: 35px;
+    }
+
+    .font-familly {
+        font-family: 'Saira Semi Condensed', sans-serif;
+        font-size: 22px;
+
+    }
+
+    .navbar-bg {
+        background-color:rgb(231, 187, 166);
+    }
+
+    .color-bg {
+        background-color:rgb(243, 232, 227);
+    }
+
+    .ol-color {
+        color: rgb(224, 150, 115);
+    }
+
+    .color-btn {
+        background-color:rgb(226, 169, 143);
+    }
+
+
+    .btn-light:hover {
+        background-color: rgb(226, 169, 143);
+            
+    }
+
+    .img-wrap {
+            height: 330px;
+            overflow: hidden;
+    }
+
+    .img-wrap img {
+            height: auto;
+            width: 100%;
+    }
+
+    li {
+        
+        list-style-type: none;
+    }
+
+    .dropdown-menu {
+        background-color:rgb(231, 187, 166);
+    }
+
+    .card-body {
+        padding: 0;
+    }
