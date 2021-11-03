@@ -2,20 +2,13 @@
 <?php
     include '../admin/config/config.php';
     session_start();
-// session_destroy();
     if(isset($_GET['MSHH'])){
         $MSHH = $_GET['MSHH'];
     }
-
-    // $query = mysqli_query($conn, "SELECT * FROM hanghoa hhh join hinhhanghoa ma on hhh.MSHH = ma.MSHH");
-
     $query = mysqli_query($conn, "SELECT * FROM hanghoa WHERE MSHH = ".$_GET['MSHH'] );
-    // $query = mysqli_query($conn, "SELECT * FROM hanghoa WHERE MSHH = ".$_GET['MSHH'] );
-
     if($query){
         $hanghoa = mysqli_fetch_assoc($query);
     }
-
     $item = [
         'MSHH' => $hanghoa['MSHH'],
         'TenHH' => $hanghoa['TenHH'],
@@ -23,8 +16,6 @@
         'Gia' => $hanghoa['Gia'],
         'SoLuong' => 1
     ];
-
-
     if(isset($_SESSION['cart'][$MSHH])){
         $_SESSION['cart'][$MSHH]['SoLuong'] +=1;
         if(isset($_POST["update"])){
@@ -182,19 +173,16 @@
             </tr>
             </thead>
             <tbody>
-
             <?php if(isset($_SESSION['cart'])){
                 $tonghoadon = 0;
                 foreach ($_SESSION['cart'] as $value){                
                 $tong = 0;
-                $tong = $value['Gia']*$value['SoLuong'];
-               
+                $tong = $value['Gia']*$value['SoLuong'];              
                 $tonghoadon += ($value['Gia']*$value['SoLuong']);
             ?>
                 <tr>                
                     <td><?php echo $value['TenHH'] ?></td>
-                    <!-- <td><img src="../picture/<?php echo $value['Hinh'] ?>" alt="" width="70"></td> -->
-                            
+                    <!-- <td><img src="../picture/<?php echo $value['Hinh'] ?>" alt="" width="70"></td> -->                            
                     <td><?php echo $value['Gia'] ?></td>
                     <td><input type="number" min="1" name="SoLuong<?php echo $value['MSHH'] ?>" value="<?php echo $value['SoLuong'] ?>"></td>
                     <td><?php echo number_format  ($tong,0,",",".") ?></td>               
@@ -203,10 +191,11 @@
              } ?>
             </tbody>
         </table>
-        <button type="submit" name="update">UPDATE CART</button>
-        
-
-    <button type="button" class="btn btn-outline btn-lg navbar-bg btn-light">
+        <div class="float-right mt-3">
+            <button type="submit" name="update">UPDATE CART</button>
+        </div>
+        <!-- <button type="submit" name="update">UPDATE CART</button> -->
+    <button type="button" class="btn btn-outline btn-lg navbar-bg btn-light mt-5">
           <a href="homepage.php" class="text-dark" style="text-decoration: none;">Tiếp tục mua hàng</a>
     </button>
 

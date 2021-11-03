@@ -7,28 +7,38 @@
     } 
 
     $diachi = mysqli_query($conn, "SELECT * FROM diachi dc join khachhang kh on dc.MSKH = kh.MSKH WHERE username = '".$_SESSION['username']."'");
+    $nhanvien ="SELECT * FROM nhavien";
     $query="SELECT * FROM KhachHang WHERE username = '".$_SESSION['username']."'";
     $khachhang = mysqli_fetch_assoc($conn->query($query));
+    $dathang= mysqli_query($conn, "SELECT * FROM dathang");
+    // $dathang= mysqli_query($conn, "SELECT * FROM dathang dh inner join khachhang kh on dh.MSKH = kh.MSKH
+    //                                                         inner join nhanvien nv on dh.MSNV = nv.MSNV
+    //                                                         inner join diachi dc on dh.MaDC = dc.MaDC");
 
+    if(isset($_POST['MSKH'])){
+        $MSKH = $_POST['MSKH'];
+        $MSNV = $_POST['MSNV'];
+        $MaDC = $_POST['MaDC'];
+        $NgayDH = $_POST['NgayDH'];
+        $NgayGH = $_POST['NgayGH'];
+        $TrangThaiDH = $_POST['TrangThaiDH'];
 
-    // $khachhang = mysqli_query($conn, "SELECT * FROM khachhang");
-    $loaihanghoa = mysqli_query($conn, "SELECT * FROM loaihanghoa");
-    $hh = "SELECT * FROM hanghoa";
-    $query = mysqli_query($conn, $hh );
+        $query = mysqli_query($conn, "INSERT INTO dathang(MSKH, MSNV, MaDC, NgayDH, NgayGH, TrangThaiDH) 
+                                    VALUES ('$MSKH', '$MSNV', '$MaDC', '$NgayDH', '$NgayGH', '$TrangThaiDH')");
+    
     if($query){
-        $hanghoa = mysqli_fetch_assoc($query);
+        $SoDonDH = mysqli_insert_id($conn);
+        foreach($cart as $value){
+            mysqli_query($conn, "INSERT INTO chitietdathang(SoDonDH, MSHH, SoLuong, GiaDatHang, GiamGia) 
+                        VALUES ('$SoDonDH', '$MSHH', '$SoLuong', '$GiaDatHang', '$GiamGia')");
+            
+        }
+        echo "Đặt hàng thành công";
+        // header('location: homepage.php');
     }
-    $item = [
-        'MSHH' => $hanghoa['MSHH'],
-        'TenHH' => $hanghoa['TenHH'],
-        'Gia' => $hanghoa['Gia'],
-        'SoLuong' => 1
-    ];
-
-
-
+    
+    }
 ?>
-
 
 
 <!DOCTYPE html>
@@ -155,108 +165,42 @@
 <form method="post">
     <div class="container-fluid">
             <div class="row ml-0 mt-4">
-                <div class="col-5" style="border: 1px solid">
-                    <h4 class="card-title text-center mt-3">Thông tin khách hàng</h4>
-                    <form action="" method="post">                   
-
-                    <div class="form-group row mt-4 mx-auto">
+                <div class="col-7">
+                        <!-- <div class="form-group row mt-4 mx-auto">
                         <label for="HoTenKH" class="col-sm-3 col-form-label form_label">Họ Tên</label>
                             <div class="col-sm-11">                          
                                 <input type="text" class="form-control" name="HoTenKH" id="HoTenKH" value="<?=$khachhang['HoTenKH'] ?>">                               
                             </div>
-                        </div>
-                        <div class="form-group row mt-3 mx-auto">
-                        <label for="SoDienThoai" class="col-sm-3 col-form-label form_label">Số điện thoại</label>
-                            <div class="col-sm-11">
-                                <input type="text" class="form-control" name="SoDienThoai" id="SoDienThoai" value="<?php echo $khachhang['SoDienThoai'] ?>">                              
-                            </div>
-                        </div>
-                   
-                        <button type="button" class="btn btn-outline btn-lg navbar-bg btn-light">
-                            <a href="diachi.php" class="text-dark" style="text-decoration: none;">Thêm địa chỉ</a>
-                        </button>
-
-                        <div class="form-group row mt-3 mx-auto">
-                        <label for="DiaChi" class="col-sm-3 col-form-label form_label">Địa chỉ</label>
-                            <div class="col-sm-11">
-                            <select class="form-control" id="MSKH" name="MSKH">
-                                <?php
-                                while($row_diachi = mysqli_fetch_assoc($diachi)){?>
-                                <option value="<?php echo $row_diachi['MaDiaChi'] ?>"><?php echo $row_diachi['DiaChi'] ?></option>
-                                <?php } ?>
-                            </select>                              
-                            </div>
-                        </div>                    
-                    </form>
-                </div>
-                <div class="col-7">
-                    <div class="container-fluid">
-                        <div class="row mt-3 mb-4">
-                            <div class="col-12 text-center">
-                                <h2>ĐƠN HÀNG</h2>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <form action="" method="post">
+                        </div> -->
+                    
                         <div class="container">    
-                            <table class="table">
+                        <table class="table">
                                 <thead>
                                 <tr>                
-                                    <th scope="col">Tên sản phẩm</th>
+                                    <th scope="col">id</th>
                                     <!-- <th scope="col">Hình ảnh</th> -->
-                                    <th scope="col">Giá bán</th>
-                                    <th scope="col">Số lượng</th>
-                                    <th scope="col">Tạm tính</th>
+                                    <th scope="col">KH</th>
+                                    <th scope="col">DC</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-
-                                <?php if(isset($_SESSION['cart'])){
-                                    $tonghoadon = 0;
-                                    foreach ($_SESSION['cart'] as $value){                
-                                    $tong = 0;
-                                    $tong = $value['Gia']*$value['SoLuong'];
-                                
-                                    $tonghoadon += ($value['Gia']*$value['SoLuong']);
-                                ?>
+                                <?php foreach ($dathang as $key => $value) {?>
                                     <tr>                
-                                        <td><?php echo $value['TenHH'] ?></td>
-                                        <!-- <td><img src="../picture/<?php echo $value['Hinh'] ?>" alt="" width="70"></td> -->
-                                                
-                                        <td><?php echo $value['Gia'] ?></td>
-                                        <td><?php echo $value['SoLuong'] ?></td>
-                                        <td><?php echo number_format  ($tong,0,",",".") ?></td>               
+                                        <td><?php echo $value['SoDonDH'] ?></td>                                               
+                                        <td><?php echo $value['MSKH'] ?></td>
+                                        <td><?php echo $value['MaDC'] ?></td>          
                                     </tr>
-                                <?php }
-                                } ?>
+                                <?php } ?>
                                 </tbody>
                             </table>
-                           
-                            
-
-                        <button type="button" class="btn btn-outline btn-lg navbar-bg btn-light mt-4">
-                            <a href="homepage.php" class="text-dark" style="text-decoration: none;">Tiếp tục mua hàng</a>
-                        </button>
-
-                        <div class="row mt-5">
-                            <div class="col-8"></div>
-                            <div class="col-4">
-                                <h4>TỔNG CỘNG</h4>
-                                <p class="container mt-3" style="border-bottom: 2px solid #222; width:100%;"></p>
-                                <div>
-                                    Tổng tiền:
-                                    <?php echo number_format($tonghoadon) ?> VND
-                                </div>                                
                                 <button type="submit" class="btn btn-outline btn-lg navbar-bg btn-light mt-5">
-                                    <a href="dathang.php" class="text-dark" style="text-decoration: none;"><i class="fas fa-check mr-3"></i>THANH TOÁN</a>
+                                    <a href="" class="text-dark" style="text-decoration: none;"><i class="fas fa-check mr-3"></i>THANH TOÁN</a>
                                 </button>
                             </div>
                         </div>
 
                     </div>
-                    </form>
+                    
                 </div>
             </div>
         </div>
@@ -279,3 +223,4 @@
  
 </body>
 </html>
+

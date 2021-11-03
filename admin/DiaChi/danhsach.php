@@ -5,17 +5,20 @@
         header('location: ../dangnhap.php');
     }
 ?>
+
 <?php
     include '../config/config.php';
     // $hanghoa = mysqli_query($conn, "SELECT * FROM loaihanghoa");
-    $hanghoa = mysqli_query($conn, "SELECT * FROM hanghoa hh join LoaiHangHoa loai on hh.MaLoaiHang = loai.MaLoaiHang");
+    $diachi = mysqli_query($conn, "SELECT * FROM diachi dc join khachhang kh on dc.MSKH = kh.MSKH");
 
 ?>
 
-<title>Hàng hóa</title>
+
+<title>Địa chỉ</title>
 <?php
     include('../layout/header.php');
 ?>  
+
 
     <div class="container-fluid p-0">
         <div class="row mr-0">
@@ -35,42 +38,32 @@
                             <a href="./them.php" class="mr-4 text-dark"><i class="fas fa-plus"></i> Thêm mới</a>
                             <a href="" class="mr-3 text-dark"><i class="fas fa-download"></i> Xuất excel</a>
                         </div>
-                        <h2 class="text-center mt-5">QUẢN LÝ HÀNG HÓA</h2>
+                        <h2 class="text-center mt-5">QUẢN LÝ ĐỊA CHỈ KHÁCH HÀNG</h2>
                     </div>
                     <div class="col-12 mt-4">
+
                       <div class="container">                       
                         <table class="table table-bordered table-striped text-center mt-2">
                         <thead>
                             <tr>
-                              <th>MSHH</th>
-                              <th>Tên</th>
-                              <th>Quy cách</th>
-                              <th>Giá</th>
-                              <th>Số lượng</th>
-                              <th>Tên loại</th>
-                              <th>Điều chỉnh</th>                           
+                              <th>Mã địa chỉ</th>
+                              <th>Địa </th>
+                              <th>MSKH</th>
                             </tr>
                           </thead>
                           <tbody>
                             <?php foreach ($hanghoa as $key => $value) {?>
                             <tr>
-                            <td><?php echo $value['MSHH'] ?></td>
-                              <td><?php echo $value['TenHH'] ?></td>
-                              <td><?php echo $value['QuyCach'] ?></td>
-                              <td><?php echo $value['Gia'] ?></td>
-                              <td><?php echo $value['SoLuongHang'] ?></td>
-                              <td><?php echo $value['TenLoaiHang'] ?></td>
-                              <td>
-                                <a href="xem.php?MSHH=<?php echo $value['MSHH'] ?>" title="Xem" class="btn btn-white"><i class="far fa-eye"></i></a>                                
-                                <a href="sua.php?MSHH=<?php echo $value['MSHH'] ?>" title="Sửa" class="btn btn-white"><i class="fas fa-pen mr-3"></i></a>                                
-                                <a href="xoa.php?MSHH=<?php echo $value['MSHH'] ?>" title="Xóa" class="btn btn-white"><i class="fas fa-trash-alt"></i></a>
-                            
-                              </td>
+                            <td><?php echo $value['MaDiaChi'] ?></td>
+                              <td><?php echo $value['DiaChi'] ?></td>
+                              <td><?php echo $value['MSKH'] ?></td>
                             </tr>
                             <?php } ?>
                           </tbody>
                         </table>
-                      </div>              
+                      </div>
+
+              
                     </div>
                 </div>
             </div>

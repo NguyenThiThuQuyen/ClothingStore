@@ -36,8 +36,8 @@
                 <div class="col-12 p-0 pr-2">
                     <div class="card mb-3" >
                         <div class="row no-gutters">
-                          <div class="col-8">
-                            <div><img src="../picture/logo_main.png" alt="logo" style="height:150px; width: 200px;"></div>
+                        <div class="col-4"></div>
+                        <div class="col-4">
                             <div class="card-body">
                                 <h1 class="card-title text-center font-color">Login</h1>
                                 <form action="" method="post">
@@ -47,13 +47,16 @@
                                         <input type="text" class="form-control" name="username" id="username">
                                             <br />                           
                                         <label for="password">Mật khẩu</label>
-                                        <input type="password" name="password" class="form-control" id="password">
-                                            <br />
+                                        <input type="password" name="passwod" class="form-control" id="password">
+                                            <br />r
                                         
                                         <div class="form-group form-check">
                                             <input type="checkbox" class="form-check-input" id="exampleCheck1">
                                             <label class="form-check-label" for="exampleCheck1">Ghi nhớ tôi</label>
-                                           <button type="submit" name="dangnhap" class="btn btn_item float-right">Đăng nhập</button>
+                                            <button type="submit" name="dangnhap" class="btn btn_item float-right btn-outline btn-lg color-btn btn-light mr-3">
+                                                Đăng nhập
+                                            </button>
+                                           <!-- <button type="submit" name="dangnhap" class="btn btn_item float-right">Đăng nhập</button> -->
 
                                         </div>  
                                     </div>                                        
@@ -61,9 +64,7 @@
                             </div>
                 
                           </div>
-                            <div class="col-4">
-                            <img src="../picture/40.jpeg" alt="hinh-nen" style="max-width: 540px; height: 52rem;">
-                          </div>
+                            <div class="col-4"></div>
 
                         </div>
                     </div>

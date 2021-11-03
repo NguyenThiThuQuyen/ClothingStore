@@ -137,7 +137,7 @@ html,body {
                 <li class="d-inline ml-5"><a href="">Quản lý đặt hàng</a></li>
                 <li class="d-inline ml-5"><a href="HangHoa/danhsach.php">Quản lý hàng hóa</a></li>
                 <li class="d-inline ml-5"><a href="">Quản lý khách hàng</a></li>
-                <li class="d-inline ml-5"><a href="">Quản lý nhân viên</a></li>
+                <li class="d-inline ml-5"><a href="NhanVien/danhsach.php">Quản lý nhân viên</a></li>
             </ul>
         </div>
     </div>

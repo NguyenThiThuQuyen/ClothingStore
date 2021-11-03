@@ -26,7 +26,7 @@
                         <i class="fas fa-user-tie mr-2"></i>Quản lý nhân viên
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="">Nhân viên</a>
+                        <a class="dropdown-item" href="../NhanVien/danhsach.php">Nhân viên</a>
                     </div>
                 </div>
             </td>

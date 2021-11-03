@@ -4,33 +4,34 @@
     if(!isset($_SESSION['username'])){
         header('location: ../dangnhap.php');
     }
-?>
 
-<?php
-    include '../config/config.php';
-    $loaihanghoa = mysqli_query($conn, "SELECT * FROM loaihanghoa");
-    $hanghoa = mysqli_query($conn, "SELECT * FROM HangHoa hh join LoaiHangHoa loai on hh.MaLoaiHang = loai.MaLoaiHang");
+    // Lấy thông tin tài khoản nhân viên đang đăng nhập
+    $nhanvien = mysqli_query($conn, "SELECT * FROM nhanvien nv join taikhoan tk on nv.id = tk.id");
 
-    if(isset($_POST['TenHH'])){
-        $TenHH = $_POST["TenHH"];
-        $QuyCach = $_POST["QuyCach"];
-        $Gia = $_POST["Gia"];
-        $SoLuongHang = $_POST["SoLuongHang"];
-        $MaLoaiHang = $_POST["MaLoaiHang"];
-
-        $sql = "INSERT INTO hanghoa(TenHH, QuyCach, Gia, SoLuongHang, MaLoaiHang)
-                VALUES ( '$TenHH', '$QuyCach', '$Gia', '$SoLuongHang', '$MaLoaiHang')";
-        $query = mysqli_query($conn, $sql);
-        if($query){
+    $sql_taikhoan="SELECT * FROM TaiKhoan ";
+    $taikhoan = mysqli_query($conn,$sql_taikhoan);
+    
+    // Thêm thông tin nhân viên
+    if(isset($_POST['submit'])){
+        $HoTenNV = $_POST["HoTenNV"];
+        $ChucVu = $_POST["ChucVu"];
+        $DiaChi = $_POST['DiaChi'];
+        $SoDienThoai = $_POST['SoDienThoai'];
+        $taikhoan_id = $_POST['taikhoan_id'];
+        $sql = "INSERT INTO NhanVien (HoTenNV , ChucVu, DiaChi, SoDienThoai, taikhoan_id) 
+                    VALUES ('$HoTenNV ' , '$ChucVu' , '$DiaChi' , '$SoDienThoai', '$taikhoan_id')";
+        if (mysqli_query($conn,$sql)) 
+        {
             header('location: danhsach.php');
+        } else {
+        echo "Error updating record: " . $conn->error;
         }
-        else{
-            echo "Lỗi";
+        
+        $connect->close();
         }
-      }
 ?>
 
-    <title>Thêm hàng hóa</title>
+<title>Thêm hàng hóa</title>
 <style>
     button#submit {
         background-color: rgb(226, 169, 143);
@@ -55,40 +56,40 @@
                 <div class="row">
                 <div class="col-1"></div>
                     <div class="col-9 mt-3"> 
-                    <h2 class="text-center mt-3">THÊM HÀNG HÓA</h2>
+                    <h2 class="text-center mt-3">THÔNG TIN NHÂN VIÊN</h2>
                             <form class="mx-auto" action="" method="post"> 
                                     <h6 class="mt-2">Nhập thông tin:</h6>
                                         <div class="form-group row mt-5">
-                                            <label for="TenHH" class="col-sm-2 col-form-label form_label">Tên hàng hóa</label>
+                                            <label for="HoTenNV" class="col-sm-2 col-form-label form_label">Họ tên</label>
                                             <div class="col-sm-8">
-                                                <input type="text" class="form-control" name="TenHH" id="TenHH">
+                                                <input type="text" class="form-control" name="HoTenNV" id="HoTenNV">
                                             </div>
                                         </div>
                                         <div class="form-group row mt-5">
-                                            <label for="QuyCach" class="col-sm-2 col-form-label form_label">Quy cách</label>
+                                            <label for="ChucVu" class="col-sm-2 col-form-label form_label">Chức vụ</label>
                                             <div class="col-sm-8">
-                                                <input type="text" class="form-control" name="QuyCach" id="QuyCach">
+                                                <input type="text" class="form-control" name="ChucVu" id="ChucVu">
                                             </div>
                                         </div>
                                         <div class="form-group row mt-5">
-                                            <label for="Gia" class="col-sm-2 col-form-label form_label">Giá</label>
+                                            <label for="DiaChi" class="col-sm-2 col-form-label form_label">Địa chỉ</label>
                                             <div class="col-sm-8">
-                                                <input type="munber" class="form-control" name="Gia" id="Gia">
+                                                <input type="munber" class="form-control" name="DiaChi" id="DiaChi">
                                             </div>
                                         </div>
                                         <div class="form-group row mt-5">
-                                            <label for="SoLuongHang" class="col-sm-2 col-form-label form_label">Số lượng</label>
+                                            <label for="SoDienThoai" class="col-sm-2 col-form-label form_label">Số điện thoại</label>
                                             <div class="col-sm-8">
-                                                <input type="munber" class="form-control" name="SoLuongHang" id="SoLuongHang">
+                                                <input type="munber" class="form-control" name="SoDienThoai" id="SoDienThoai">
                                             </div>
                                         </div>
                                         <div class="form-group row mt-5">
-                                            <label for="" class="col-sm-2 col-form-label form_label">Loại hàng</label>                            
+                                            <label for="" class="col-sm-2 col-form-label form_label">Tài khoản</label>                            
                                             <div class="col-sm-8">
-                                            <select class="custom-select" name="MaLoaiHang">
+                                            <select class="custom-select" name="taikhoan_id">
                                                 <option selected>Chọn</option>
-                                                <?php foreach($loaihanghoa as $key => $value) { ?>
-                                                    <option value="<?php echo $value['MaLoaiHang'] ?>"><?php echo $value['TenLoaiHang'] ?></option>
+                                                <?php foreach($taikhoan as $key => $value) { ?>
+                                                    <option value="<?php echo $value['taikhoan_id'] ?>"><?php echo $value['username'] ?></option>
                                                 <?php } ?>
 
                                             </select>

@@ -1,48 +1,27 @@
+
 <?php
-    include '../admin/config/config.php';
-    session_start();
+        include '../admin/config/config.php';
+        session_start();    
+        if (!isset($_SESSION['username'])) {
+            header("location: ./dangnhap.php");
+        } 
 
-    if (!isset($_SESSION['username'])) {
-        header("location: ./dangnhap.php");
-    } 
-
-    $diachi = mysqli_query($conn, "SELECT * FROM diachi dc join khachhang kh on dc.MSKH = kh.MSKH WHERE username = '".$_SESSION['username']."'");
-    $query="SELECT * FROM KhachHang WHERE username = '".$_SESSION['username']."'";
-    $khachhang = mysqli_fetch_assoc($conn->query($query));
-
-    $nhanvien ="SELECT * FROM nhavien";
-
-        if(isset($_POST['submit'])){
-            // var_dump($_POST);
-            $MSKH = $khachhang['MSKH'];
-           
-            $MaDC = $_POST['MaDC'];
-           
-    
-            $query = mysqli_query($conn, "INSERT INTO dathang(MSKH, MaDC) 
-                                        VALUES ('$MSKH', '$MaDC')");
-        
+    $sql_khachhang="SELECT * FROM KhachHang  WHERE username = '".$_SESSION['username']."'";
+    $khachhang = mysqli_query($conn,$sql_khachhang);
+    if(isset($_POST['submit'])){
+        $DiaChi = $_POST["DiaChi"];
+        $MSKH = $_POST["MSKH"];    
+        $sql = "INSERT INTO diachi(DiaChi, MSKH) VALUES ( '$DiaChi', '$MSKH')";
+        $query = mysqli_query($conn, $sql);
         if($query){
-            $SoDonDH = mysqli_insert_id($conn);
-            if(isset($_SESSION["cart"])){
-            foreach($_SESSION["cart"] as $value){
-                mysqli_query($conn, "INSERT INTO chitietdathang(SoDonDH, MSHH, SoLuong) 
-                            VALUES ('$SoDonDH', '$value[MSHH]', '$value[SoLuong]')");
-                
-            }
+            header('location: ./thanhtoan.php');
         }
-            echo "Đặt hàng thành công";
-            // header('location: homepage.php');
+        else{
+            // echo "Lỗi";
+            echo "Error updating record: " . $conn->error;
         }
-        
-    
     }
-
-
-
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -165,45 +144,56 @@
     </div>
     
 
-        <div class="container-fluid">
-            <div class="row ml-0 mt-4">
-                <div class="col-5" style="border: 1px solid">
-                    <h4 class="card-title text-center mt-3">Thông tin khách hàng</h4>
-                    <form action="" method="post">                   
-                        <div class="form-group row mt-4 mx-auto">
-                        <label for="HoTenKH" class="col-sm-3 col-form-label form_label">Họ Tên</label>
-                            <div class="col-sm-11">                          
-                                <input type="text" class="form-control" name="HoTenKH" id="HoTenKH" value="<?=$khachhang['HoTenKH'] ?>">                               
-                            </div>
-                        </div>
-                        <div class="form-group row mt-3 mx-auto">
-                        <label for="SoDienThoai" class="col-sm-3 col-form-label form_label">Số điện thoại</label>
-                            <div class="col-sm-11">
-                                <input type="text" class="form-control" name="SoDienThoai" id="SoDienThoai" value="<?php echo $khachhang['SoDienThoai'] ?>">                              
-                            </div>
-                        </div>                   
-                        <button type="button" class="btn btn-outline btn-lg navbar-bg btn-light">
-                            <a href="diachi.php" class="text-dark" style="text-decoration: none;">Thêm địa chỉ</a>
-                        </button>
-                        <div class="form-group row mt-3 mx-auto">
-                        <label for="DiaChi" class="col-sm-3 col-form-label form_label">Địa chỉ</label>
-                            <div class="col-sm-11">
-                            <select class="form-control" id="MaDC" name="MaDC">
-                                <?php
-                                while($row_diachi = mysqli_fetch_assoc($diachi)){?>
-                                <option value="<?php echo $row_diachi['MaDC'] ?>"><?php echo $row_diachi['DiaChi'] ?></option>
-                                <?php } ?>
-                            </select>                              
-                            </div>
-                        </div>
-                        <button type="submit" name='submit' class="btn btn-outline btn-lg navbar-bg btn-light mt-5">THANH TOÁN</button>                    
-                    </form>
+
+    <div class="container-fluid p-0">
+            <div class="col-10">
+                <div class="row">
+                <div class="col-1"></div>
+                    <div class="col-9 mt-3"> 
+                    <h2 class="text-center mt-3">ĐỊA CHỈ KHÁCH HÀNG</h2>
+                            <form class="mx-auto" action="" method="post"> 
+                                    <h6 class="mt-2">Nhập thông tin:</h6>
+                                        <div class="form-group row mt-5 mx-auto">
+                                        <label for="DiaChi" class="col-sm-3 col-form-label form_label">Địa chỉ</label>
+                                            <div class="col-sm-11">
+                                                <input type="text" class="form-control" name="DiaChi" id="DiaChi" placeholder="Số nhà, tên đường, phường/xã, quận/huyên, tỉnh/TP" value="">
+                                            </div>
+                                        </div>  
+                                        
+                                        <div class="form-group row mt-5 mx-auto">
+                                        <label for="username" class="col-sm-3 col-form-label form_label">Tên đăng nhập</label>
+                                            <div class="col-sm-11">                          
+                                               <select class="form-control" id="MSKH" name="MSKH">
+                                                    <?php
+                                                    while($row_khachhang = mysqli_fetch_assoc($khachhang)){?>
+                                                    <option value="<?php echo $row_khachhang['MSKH'] ?>"><?php echo $row_khachhang['HoTenKH'] ?></option>
+                                                    <?php } ?>
+                                                </select>                             
+                                            </div>
+                                        </div> 
+
+
+
+
+                                    <div class="form-group row mt-3 float-right" style="margin-right: 150px">
+                                        <div class="col-sm-8 d-flex">
+                                            <button type="submit" class="btn btn-outline-light color-btn my-2 my-sm-0 text-dark mr-2 px-4" name="submit" id="submit">Lưu</button>
+                                            <button type="button" class="btn btn-secondary px-4" data-dismiss="modal">Hủy</button>                                            
+                                        </div>
+                                    </div>
+                                
+                                </div>
+                            </form>                      
+                    </div>              
                 </div>
             </div>
         </div>
 
 
-        <div class="container-fluid mt-5 p-0">
+
+
+
+    <div class="container-fluid mt-5 p-0">
         <div class="nav bg-dark" style="justify-content: space-evenly;">
             <ul class="nav-list">
                 <li class="nav-item text-center text-white mt-3" style="list-style: none;">Hotline: 079.268.268</li>
@@ -219,3 +209,6 @@
  
 </body>
 </html>
+
+
+
