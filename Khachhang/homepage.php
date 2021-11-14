@@ -8,7 +8,7 @@
   <?php
    session_start();
       // session_destroy();
-      if (!isset($_SESSION['username'])) {
+      if (!isset($_SESSION['tendangnhap'])) {
           header("location: ./dangnhap.php");
       }
   ?>
@@ -104,21 +104,22 @@
                     </div>
                 </div>
                 </li>
+                <li class="nav-item">
+                  <a href="./basket.php" class="nav-link text-dark" style="text-decoration: none; font-size: 20px;"><i class="fas fa-shopping-cart fa-1x mr-3"></i>Giỏ hàng</a>
+              </li>
             </ul>
             <ul class="navbar-nav">
-              <li class="nav-item">
-                      <a href="./basket.php" class="text-dark" style="text-decoration: none; font-size: 20px;"><i class="fas fa-shopping-cart fa-1x mr-2"></i>Giỏ hàng</a>
-              </li>
+             
               
                 <li class="nav-item ml-4">
                 <div style="font-size: 20px;">                   
                 <i class="fas fa-user"></i>
                      <?php
                           // session_destroy();
-                          if (!isset($_SESSION['username'])) {
+                          if (!isset($_SESSION['tendangnhap'])) {
                             header("location: ./dangnhap.php");
                           } else {
-                            echo $_SESSION['username'];
+                            echo $_SESSION['tendangnhap'];
                           }
                       ?>
                 </div>

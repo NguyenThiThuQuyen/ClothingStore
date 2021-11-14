@@ -1,13 +1,19 @@
 <?php
-
     include '../admin/config/config.php';
     $loaihanghoa = mysqli_query($conn, "SELECT * FROM loaihanghoa");
     $hinhhanghoa = mysqli_query($conn, "SELECT * FROM hinhhanghoa");
     $hanghoa = mysqli_query($conn, "SELECT * FROM hanghoa");
-
-
+   
 ?>
+  <?php
+   session_start();
+      // session_destroy();
+      if (!isset($_SESSION['tendangnhap'])) {
+          header("location: ./dangnhap.php");
+      }
+  ?>
 
+  
 
 <!DOCTYPE html>
 <html lang="en">
@@ -85,7 +91,7 @@
                 </li>
                 <li class="nav-item">
                   <!-- <a class="nav-link" style="font-size: 20px;" href="#">Danh mục sản phẩm</a> -->
-                  <div class="dropdown">
+                <div class="dropdown">
                     <button class="btn dropdown-toggle" style="font-size: 20px;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-bars fa-1x mr-2"></i>Danh mục sản phẩm
                     </button>
@@ -96,21 +102,35 @@
                     <?php } ?>
                     <?php } ?>
                     </div>
-                  </div>
+                </div>
                 </li>
+                <li class="nav-item">
+                  <a href="./basket.php" class="nav-link text-dark" style="text-decoration: none; font-size: 20px;"><i class="fas fa-shopping-cart fa-1x mr-3"></i>Giỏ hàng</a>
+              </li>
             </ul>
             <ul class="navbar-nav">
-                <li class="nav-item">
-                    <button type="button" class="btn btn-outline btn-lg color-btn btn-light mr-3">
-                        <a href="#" class="text-dark" style="text-decoration: none;">Đăng nhập</a>
-                  </button>
+             
+              
+                <li class="nav-item ml-4">
+                <div style="font-size: 20px;">                   
+                <i class="fas fa-user"></i>
+                     <?php
+                          // session_destroy();
+                          if (!isset($_SESSION['tendangnhap'])) {
+                            header("location: ./dangnhap.php");
+                          } else {
+                            echo $_SESSION['tendangnhap'];
+                          }
+                      ?>
+                </div>
                 </li>
-                <li class="nav-item">
-                    <button type="button" class="btn btn-outline btn-lg color-btn btn-light">
-                        <a href="#" class="text-dark" style="text-decoration: none;">Đăng ký</a>
-                  </button>
+                <li class="nav-item ml-4">                   
+                    <a href="./dangxuat.php" name='logout' class="text-dark" style="text-decoration: none; font-size: 20px;">
+                      <i class="fas fa-sign-out-alt mr-1"></i>
+                    Đăng xuất</a>
                 </li>
             </ul>
+            
             </div>
           </nav>
         <div class="row navbar-bg p-0">
@@ -137,80 +157,55 @@
                 </ul> -->
             </div>
         </div>
-
-        <div class="row p-0">
-            <div class="col-12">
-                <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">                 
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent" style="justify-content:space-evenly;">
-                    <?php if (($loaihanghoa)) {?>
-                    <?php foreach ($loaihanghoa as $key => $value) {?>
-                    <ul class="navbar-nav">
-                        <li class="nav-item font-familly ">
-                          <a class="nav-link text-dark"  href=""><h3><?php echo $value['TenLoaiHang'] ?></h3></span></a>
-                        </li>
-                        
-                    </ul>
-                    <?php } ?>
-                    <?php } ?>                     
-                    </div>
-                </nav>
-            </div>
-        </div>
     </div>
-
-
-    <div class="container p-0">
-        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-            <ol class="carousel-indicators">
-              <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-              <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-              <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-            </ol>
-            <div class="carousel-inner">
-              <div class="carousel-item active">
-                <img class="d-block w-100" src="../picture/7.jpg" alt="First slide">
-              </div>
-              <div class="carousel-item">
-                <img class="d-block w-100" src="../picture/4.jpg" alt="Second slide">
-              </div>
-              <div class="carousel-item">
-                <img class="d-block w-100" src="../picture/5.jpg" alt="Third slide">
-              </div>
-            </div>
-            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="sr-only">Next</span>
-            </a>
-          </div>
-    </div>
-
     
-    <div class="row pb-5 p-0">
-        
+    <div class="row pb-5 p-0">   
         <div class="col-12 mt-5">
-            <p class="text-center" style="font-size: 45px;">Danh mục sản phẩm</p>                                 
-        </div>
-                   
+            <p class="text-center" style="font-size: 45px;">Sản phẩm theo loại</p>                                 
+        </div>               
     </div> 
 
+
+    <div class="color-bg p-0">
+        <div class="container">
+        <div class="row text-center mt-5">        
+              <?php 
+                $sql_hanghoa = mysqli_query($conn, "SELECT * FROM HangHoa hh join HinhHangHoa hinh on hh.MSHH = hinh.MSHH ");
+                if (($sql_hanghoa)) {?>
+                  <?php foreach ($sql_hanghoa as $key => $row){?>
+                    <div class="col-md-3 mt-4">
+                      <div class="card">
+                        <div class="product-top img-wrap">                         
+                            <img class="card-img-top img-wrap" src="./picture/<?php echo $row['Hinh'] ?>" alt="" >                          
+                        </div>
+                        <div class="product-info m-2">
+                          <a href="" class="product-1 "><?php echo $row['TenHH'] ?></a>
+                            <div class="product-price ">Price: <?php echo $row['Gia'] ?> VND
+                            <a href="./basket.php?MSHH=<?php echo $row['MSHH'] ?>"><i class="fas fa-shopping-cart fa-1x"></i></a>
+                            
+                            </div>
+                        </div>
+                      </div>
+                    </div>  
+                  <?php } ?> 
+              <?php } ?>  
+            </div>      
+        </div>
+    </div>
 
     <div class="color-bg p-0">
         <div class="container">
           
         <div class="row text-center mt-5">
               <?php 
-                $hanghoa = mysqli_query($conn, "SELECT * FROM HangHoa hh join HinhHangHoa hinh on hh.MSHH = hinh.MSHH WHERE MSHH = " .$_GET['MSHH']);
+                $hanghoa = mysqli_query($conn, "SELECT * FROM HangHoa hh join HinhHangHoa hinh on hh.MSHH = hinh.MSHH WHERE MaLoaiHang = " .$_GET['MaLoaiHang']);
                 if (($hanghoa)) {?>
                   <?php foreach ($hanghoa as $key => $row){?>
                     <div class="col-3">
                       <div class="product-item  ">
                         <div class="product-top img-wrap">
                           <a href="" class="product-1">
-                            <td><img src="../picture/<?php echo $row['Hinh'] ?>" alt="" width="70"></td>
+                            <td><img src="./picture/<?php echo $row['Hinh'] ?>" alt="" width="70"></td>
                           </a>
                         </div>
                         <div class="product-info m-2">

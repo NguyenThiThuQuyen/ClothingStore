@@ -80,6 +80,7 @@ html,body {
 }
 </style>
 <body>
+<div>
 <nav class="navbar navbar-expand-md navbar-light navbar-bg">
     <a class="navbar-brand ml-4" href="#"><h3 class="font">Quinn Boutique</h3></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="vbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -104,10 +105,11 @@ html,body {
         </div>
     </li>
     </ul>
-    </div>
+
         <nav>
             <form class="form-inline mr-5">
-                <div>
+           
+                <div style="font-size: 18px;">
                 <i class="fas fa-user"></i>
                     <?php
                           if (!isset($_SESSION['username'])) {
@@ -122,8 +124,8 @@ html,body {
                 Đăng xuất</a>
             </form>
         </nav>
-</nav>
-    
+    </nav>
+</div> 
    
 
   

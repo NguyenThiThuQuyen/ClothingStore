@@ -44,6 +44,8 @@
         $_SESSION['cart'][$MSHH] = $item;
     }
 
+
+
 ?>
 
 
@@ -170,8 +172,9 @@
              } ?>
             </tbody>
         </table>
-        <button type="submit" name="update">UPDATE CART</button>
-        
+        <div class="float-right mt-3">
+            <button type="submit" name="update">UPDATE CART</button>
+        </div>
 
     <button type="button" class="btn btn-outline btn-lg navbar-bg btn-light">
           <a href="index.php" class="text-dark" style="text-decoration: none;">Tiếp tục mua hàng</a>

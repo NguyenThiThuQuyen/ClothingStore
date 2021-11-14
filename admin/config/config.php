@@ -6,4 +6,6 @@ $database="quinnboutique";
 $conn=mysqli_connect($host,$username,$password,$database);
 mysqli_query($conn,"SET NAMES 'utf8'");
 
+
+
 ?>

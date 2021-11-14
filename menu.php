@@ -4,10 +4,7 @@
     $loaihanghoa = mysqli_query($conn, "SELECT * FROM loaihanghoa");
     $hinhhanghoa = mysqli_query($conn, "SELECT * FROM hinhhanghoa");
     $hanghoa = mysqli_query($conn, "SELECT * FROM hanghoa");
-
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -81,7 +78,7 @@
             <div class="collapse navbar-collapse" id="navbarNav" style="justify-content: space-between;">
             <ul class="navbar-nav">
                 <li class="nav-item active">
-                  <a class="nav-link ml-5" style="font-size: 20px;" href="#"><i class="fas fa-home mr-2"></i>Trang chủ<span class="sr-only">(current)</span></a>
+                  <a class="nav-link ml-5" style="font-size: 20px;" href="index.php"><i class="fas fa-home mr-2"></i>Trang chủ<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
                   <!-- <a class="nav-link" style="font-size: 20px;" href="#">Danh mục sản phẩm</a> -->
@@ -102,12 +99,12 @@
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <button type="button" class="btn btn-outline btn-lg color-btn btn-light mr-3">
-                        <a href="#" class="text-dark" style="text-decoration: none;">Đăng nhập</a>
+                        <a href="Khachhang/dangnhap.php" class="text-dark" style="text-decoration: none;">Đăng nhập</a>
                   </button>
                 </li>
                 <li class="nav-item">
                     <button type="button" class="btn btn-outline btn-lg color-btn btn-light">
-                        <a href="#" class="text-dark" style="text-decoration: none;">Đăng ký</a>
+                        <a href="Khachhang/dangky.php" class="text-dark" style="text-decoration: none;">Đăng ký</a>
                   </button>
                 </li>
             </ul>
@@ -137,62 +134,12 @@
                 </ul> -->
             </div>
         </div>
-
-        <div class="row p-0">
-            <div class="col-12">
-                <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">                 
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent" style="justify-content:space-evenly;">
-                    <?php if (($loaihanghoa)) {?>
-                    <?php foreach ($loaihanghoa as $key => $value) {?>
-                    <ul class="navbar-nav">
-                        <li class="nav-item font-familly ">
-                          <a class="nav-link text-dark"  href=""><h3><?php echo $value['TenLoaiHang'] ?></h3></span></a>
-                        </li>
-                        
-                    </ul>
-                    <?php } ?>
-                    <?php } ?>                     
-                    </div>
-                </nav>
-            </div>
-        </div>
     </div>
 
-
-    <div class="container p-0">
-        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-            <ol class="carousel-indicators">
-              <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-              <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-              <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-            </ol>
-            <div class="carousel-inner">
-              <div class="carousel-item active">
-                <img class="d-block w-100" src="../picture/7.jpg" alt="First slide">
-              </div>
-              <div class="carousel-item">
-                <img class="d-block w-100" src="../picture/4.jpg" alt="Second slide">
-              </div>
-              <div class="carousel-item">
-                <img class="d-block w-100" src="../picture/5.jpg" alt="Third slide">
-              </div>
-            </div>
-            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="sr-only">Next</span>
-            </a>
-          </div>
-    </div>
-
-    
     <div class="row pb-5 p-0">
         
         <div class="col-12 mt-5">
-            <p class="text-center" style="font-size: 45px;">Danh mục sản phẩm</p>                                 
+            <p class="text-center" style="font-size: 45px;">Sản phẩm theo loại</p>                                 
         </div>
                    
     </div> 

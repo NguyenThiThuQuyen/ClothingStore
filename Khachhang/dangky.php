@@ -1,13 +1,13 @@
 <?php
     include('../admin/config/config.php');
-    if(isset($_POST['dangky']) && $_POST['HoTenKH'] != '' && $_POST['SoDienThoai'] != '' && $_POST['username'] != '' && $_POST['Password'] != ''){
+    if(isset($_POST['dangky']) && $_POST['HoTenKH'] != '' && $_POST['SoDienThoai'] != '' && $_POST['tendangnhap'] != '' && $_POST['password'] != ''){
         $HoTenKh = $_POST['HoTenKH'];
         $SoDienThoai = $_POST['SoDienThoai'];
-        $username = $_POST['username'];
-        $Password = md5($_POST['Password']);
+        $tendangnhap = $_POST['tendangnhap'];
+        $password = md5($_POST['password']);
 
-        $sql = mysqli_query($conn, "INSERT INTO KhachHang(HoTenKH, SoDienThoai, username, Password)
-                                    VALUES ('$HoTenKh', '$SoDienThoai', '$username', '$Password')");
+        $sql = mysqli_query($conn, "INSERT INTO KhachHang(HoTenKH, SoDienThoai, tendangnhap, password)
+                                    VALUES ('$HoTenKh', '$SoDienThoai', '$tendangnhap', '$password')");
         if($sql){
             // echo "Đăng ký thành công";
             header('location: ./dangnhap.php');
@@ -67,11 +67,11 @@
                             <label for="SoDienThoai">Số điện thoại</label>
                             <input type="text" name="SoDienThoai" class="form-control" id="SoDienThoai">                           
                                 <br />
-                            <label for="username">Tên đăng nhập:</label>
-                            <input type="text" class="form-control" name="username" id="username">
+                            <label for="tendangnhap">Tên đăng nhập:</label>
+                            <input type="text" class="form-control" name="tendangnhap" id="tendangnhap">
                                 <br />                        
-                            <label for="Password">Mật khẩu</label>
-                            <input type="password" name="Password" class="form-control" id="Password">
+                            <label for="password">Mật khẩu</label>
+                            <input type="password" name="password" class="form-control" id="password">
                                 <br />
                             <div class="form-group form-check">
                                <button type="submit" name="dangky" class="btn btn-outline-light color-btn text-dark float-right">Đăng ký</button>

@@ -77,7 +77,7 @@
             <div class="collapse navbar-collapse" id="navbarNav" style="justify-content: space-between;">
             <ul class="navbar-nav">
                 <li class="nav-item active">
-                  <a class="nav-link ml-5" style="font-size: 20px;" href="#"><i class="fas fa-home mr-2"></i>Trang chủ<span class="sr-only">(current)</span></a>
+                  <a class="nav-link ml-5" style="font-size: 20px;" href="index.php"><i class="fas fa-home mr-2"></i>Trang chủ<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
                   <!-- <a class="nav-link" style="font-size: 20px;" href="#">Danh mục sản phẩm</a> -->
@@ -136,22 +136,24 @@
         </div>
 
         <div class="row mr-0">
-            <div class="col-12">
-                <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">                 
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent" style="justify-content:space-evenly;">
+            <div class="col-3"></div>
+            <div class="col-6">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">                 
+            <div class="collapse navbar-collapse" id="navbarSupportedContent" style="justify-content:space-evenly;">
                     <?php if (($loaihanghoa)) {?>
                     <?php foreach ($loaihanghoa as $key => $value) {?>
                     <ul class="navbar-nav">
                         <li class="nav-item font-familly ">
                           <a class="nav-link text-dark"  href=""><h3><?php echo $value['TenLoaiHang'] ?></h3></span></a>
-                        </li>
-                        
+                        </li>                       
                     </ul>
                     <?php } ?>
                     <?php } ?>                     
                     </div>
-                </nav>
+              </nav>
+              <div class="col-3"></div>
             </div>
+            
         </div>
     </div>
 

@@ -1,24 +1,23 @@
 <?php
     include '../admin/config/config.php';
+    $loaihanghoa = mysqli_query($conn, "SELECT * FROM loaihanghoa");
+    $hinhhanghoa = mysqli_query($conn, "SELECT * FROM hinhhanghoa");
+    $hanghoa = mysqli_query($conn, "SELECT * FROM hanghoa");
     session_start();
-
-    if (!isset($_SESSION['username'])) {
+    if (!isset($_SESSION['tendangnhap'])) {
         header("location: ./dangnhap.php");
     } 
 
-    $diachi = mysqli_query($conn, "SELECT * FROM diachi dc join khachhang kh on dc.MSKH = kh.MSKH WHERE username = '".$_SESSION['username']."'");
-    $query="SELECT * FROM KhachHang WHERE username = '".$_SESSION['username']."'";
+    $diachi = mysqli_query($conn, "SELECT * FROM diachi dc join khachhang kh on dc.MSKH = kh.MSKH WHERE tendangnhap = '".$_SESSION['tendangnhap']."'");
+    $query="SELECT * FROM KhachHang WHERE tendangnhap = '".$_SESSION['tendangnhap']."'";
     $khachhang = mysqli_fetch_assoc($conn->query($query));
 
     $nhanvien ="SELECT * FROM nhavien";
 
         if(isset($_POST['submit'])){
             // var_dump($_POST);
-            $MSKH = $khachhang['MSKH'];
-           
-            $MaDC = $_POST['MaDC'];
-           
-    
+            $MSKH = $khachhang['MSKH'];           
+            $MaDC = $_POST['MaDC'];               
             $query = mysqli_query($conn, "INSERT INTO dathang(MSKH, MaDC) 
                                         VALUES ('$MSKH', '$MaDC')");
         
@@ -26,22 +25,18 @@
             $SoDonDH = mysqli_insert_id($conn);
             if(isset($_SESSION["cart"])){
             foreach($_SESSION["cart"] as $value){
-                mysqli_query($conn, "INSERT INTO chitietdathang(SoDonDH, MSHH, SoLuong) 
-                            VALUES ('$SoDonDH', '$value[MSHH]', '$value[SoLuong]')");
+                mysqli_query($conn, "INSERT INTO chitietdathang(SoDonDH, MSHH, SoLuong, GiaDatHang) 
+                            VALUES ('$SoDonDH', '$value[MSHH]', '$value[SoLuong]', '$value[Gia]')");
                 
             }
         }
+        unset($_SESSION['cart']);
             echo "Đặt hàng thành công";
             // header('location: homepage.php');
-        }
-        
-    
+        }  
     }
 
-
-
 ?>
-
 
 
 <!DOCTYPE html>
@@ -116,7 +111,7 @@
             <div class="collapse navbar-collapse" id="navbarNav" style="justify-content: space-between;">
             <ul class="navbar-nav">
                 <li class="nav-item active">
-                  <a class="nav-link ml-5" style="font-size: 20px;" href="#"><i class="fas fa-home mr-3"></i>Trang chủ<span class="sr-only">(current)</span></a>
+                  <a class="nav-link ml-5" style="font-size: 20px;" href="homepage.php"><i class="fas fa-home mr-3"></i>Trang chủ<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
                   <!-- <a class="nav-link" style="font-size: 20px;" href="#">Danh mục sản phẩm</a> -->
@@ -127,7 +122,7 @@
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <?php if (($loaihanghoa)) {?>
                     <?php foreach ($loaihanghoa as $key => $value) {?>
-                        <a class="dropdown-item" href="./menu.php?MaLoaiHang=<?php echo $value['MaLoaiHoang'] ?>"><?php echo $value['TenLoaiHang'] ?></a>
+                        <a class="dropdown-item" href="./menu.php?MaLoaiHang=<?php echo $value['MaLoaiHang'] ?>"><?php echo $value['TenLoaiHang'] ?></a>
                     <?php } ?>
                     <?php } ?>
                     </div>
@@ -135,19 +130,18 @@
                 </li>
                 <li class="nav-item">
                       <a href="./basket.php" class="nav-link text-dark" style="text-decoration: none; font-size: 20px;"><i class="fas fa-shopping-cart fa-1x mr-3"></i>Giỏ hàng</a>
-              </li>
+                </li>
             </ul>
             <ul class="navbar-nav">
-              
                 <li class="nav-item ml-4">
                 <div style="font-size: 20px;">                   
                 <i class="fas fa-user"></i>
                      <?php
                           // session_destroy();
-                          if (!isset($_SESSION['username'])) {
+                          if (!isset($_SESSION['tendangnhap'])) {
                             header("location: ./dangnhap.php");
                           } else {
-                            echo $_SESSION['username'];
+                            echo $_SESSION['tendangnhap'];
                           }
                       ?>
                 </div>
@@ -167,27 +161,30 @@
 
         <div class="container-fluid">
             <div class="row ml-0 mt-4">
-                <div class="col-5" style="border: 1px solid">
+                <div class="col-4"></div>
+                <div class="col-4">
                     <h4 class="card-title text-center mt-3">Thông tin khách hàng</h4>
                     <form action="" method="post">                   
                         <div class="form-group row mt-4 mx-auto">
                         <label for="HoTenKH" class="col-sm-3 col-form-label form_label">Họ Tên</label>
-                            <div class="col-sm-11">                          
+                            <div class="col-sm-12">                          
                                 <input type="text" class="form-control" name="HoTenKH" id="HoTenKH" value="<?=$khachhang['HoTenKH'] ?>">                               
                             </div>
                         </div>
                         <div class="form-group row mt-3 mx-auto">
                         <label for="SoDienThoai" class="col-sm-3 col-form-label form_label">Số điện thoại</label>
-                            <div class="col-sm-11">
+                            <div class="col-sm-12">
                                 <input type="text" class="form-control" name="SoDienThoai" id="SoDienThoai" value="<?php echo $khachhang['SoDienThoai'] ?>">                              
                             </div>
                         </div>                   
-                        <button type="button" class="btn btn-outline btn-lg navbar-bg btn-light">
-                            <a href="diachi.php" class="text-dark" style="text-decoration: none;">Thêm địa chỉ</a>
-                        </button>
+                        
+                            <button type="submit" name="update" class="mt-2 ml-3">
+                                <a href="diachi.php" class="text-dark" style="text-decoration: none;">Thêm địa chỉ</a>
+                            </button>
+                        
                         <div class="form-group row mt-3 mx-auto">
                         <label for="DiaChi" class="col-sm-3 col-form-label form_label">Địa chỉ</label>
-                            <div class="col-sm-11">
+                            <div class="col-sm-12">
                             <select class="form-control" id="MaDC" name="MaDC">
                                 <?php
                                 while($row_diachi = mysqli_fetch_assoc($diachi)){?>
@@ -196,8 +193,9 @@
                             </select>                              
                             </div>
                         </div>
-                        <button type="submit" name='submit' class="btn btn-outline btn-lg navbar-bg btn-light mt-5">THANH TOÁN</button>                    
+                        <button type="submit" name='submit' class="btn btn-outline btn-lg float-right navbar-bg btn-light mr-2 my-3">THAH TOÁN</button>                    
                     </form>
+                <div class="col-4"></div>
                 </div>
             </div>
         </div>

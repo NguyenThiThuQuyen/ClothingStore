@@ -2,11 +2,11 @@
 <?php
         include '../admin/config/config.php';
         session_start();    
-        if (!isset($_SESSION['username'])) {
+        if (!isset($_SESSION['tendangnhap'])) {
             header("location: ./dangnhap.php");
         } 
 
-    $sql_khachhang="SELECT * FROM KhachHang  WHERE username = '".$_SESSION['username']."'";
+    $sql_khachhang="SELECT * FROM KhachHang  WHERE tendangnhap = '".$_SESSION['tendangnhap']."'";
     $khachhang = mysqli_query($conn,$sql_khachhang);
     if(isset($_POST['submit'])){
         $DiaChi = $_POST["DiaChi"];
@@ -123,10 +123,10 @@
                 <i class="fas fa-user"></i>
                      <?php
                           // session_destroy();
-                          if (!isset($_SESSION['username'])) {
+                          if (!isset($_SESSION['tendangnhap'])) {
                             header("location: ./dangnhap.php");
                           } else {
-                            echo $_SESSION['username'];
+                            echo $_SESSION['tendangnhap'];
                           }
                       ?>
                 </div>
@@ -161,7 +161,7 @@
                                         </div>  
                                         
                                         <div class="form-group row mt-5 mx-auto">
-                                        <label for="username" class="col-sm-3 col-form-label form_label">Tên đăng nhập</label>
+                                        <label for="tendangnhap" class="col-sm-3 col-form-label form_label">Tên đăng nhập</label>
                                             <div class="col-sm-11">                          
                                                <select class="form-control" id="MSKH" name="MSKH">
                                                     <?php
