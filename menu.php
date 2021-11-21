@@ -148,26 +148,27 @@
     <div class="color-bg p-0">
         <div class="container">
           
-        <div class="row text-center mt-5">
+        <div class="row text-center">
               <?php 
                 $hanghoa = mysqli_query($conn, "SELECT * FROM HangHoa hh join HinhHangHoa hinh on hh.MSHH = hinh.MSHH WHERE MaLoaiHang = " .$_GET['MaLoaiHang']);
                 if (($hanghoa)) {?>
-                  <?php foreach ($hanghoa as $key => $row){?>
-                    <div class="col-3">
-                      <div class="product-item  ">
-                        <div class="product-top img-wrap">
-                          <a href="" class="product-1">
-                            <td><img src="./picture/<?php echo $row['Hinh'] ?>" alt="" width="70"></td>
-                          </a>
+                    <?php foreach ($hanghoa as $key => $row){?>
+                      <div class="col-md-3 mt-4">
+                        <div class="card">
+                          <div class="product-top img-wrap">                         
+                              <img class="card-img-top img-wrap" src="./picture/<?php echo $row['Hinh'] ?>" alt="" >                          
+                          </div>
+                          <div class="product-info m-2">
+                            <a href="" class="product-1 "><?php echo $row['TenHH'] ?></a>
+                              <div class="product-price ">Price: <?php echo $row['Gia'] ?> VND
+                              <a href="./giohang.php?MSHH=<?php echo $row['MSHH'] ?>"><i class="fas fa-shopping-cart fa-1x"></i></a>
+                              
+                              </div>
+                          </div>
                         </div>
-                        <div class="product-info m-2">
-                          <a href="" class="product-1" style="font-size:14px"><?php echo $row['TenHH'] ?></a>
-                          <div class="product-price "><?php echo $row['Gia'] ?><i class="fas fa-shopping-cart fa-1x"></i></div>
-                        </div>
-                      </div>
-                    </div>  
-                  <?php } ?> 
-              <?php } ?>  
+                      </div>  
+                    <?php } ?> 
+                <?php } ?>  
             </div>
         </div>
     </div>

@@ -149,13 +149,12 @@
                     </ul>
                     <?php } ?>
                     <?php } ?>                     
-                    </div>
-              </nav>
-              <div class="col-3"></div>
             </div>
-            
+            </nav>
+            <div class="col-3"></div>
+            </div>
+            </div>
         </div>
-    </div>
 
 
     <div class="container p-0">
@@ -200,7 +199,7 @@
     <div class="color-bg p-0">
         <div class="container">
           
-        <div class="row text-center mt-5">
+        <div class="row text-center">
            
               <?php 
                 $sql_hanghoa = mysqli_query($conn, "SELECT * FROM HangHoa hh join HinhHangHoa hinh on hh.MSHH = hinh.MSHH ");

@@ -158,22 +158,26 @@
             </div>
         </div>
 
-        <div class="row p-0">
-            <div class="col-12">
-                <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">                 
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent" style="justify-content:space-evenly;">
+        <div class="row mr-0">
+            <div class="col-3"></div>
+            <div class="col-6">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">                 
+            <div class="collapse navbar-collapse" id="navbarSupportedContent" style="justify-content:space-evenly;">
                     <?php if (($loaihanghoa)) {?>
                     <?php foreach ($loaihanghoa as $key => $value) {?>
                     <ul class="navbar-nav">
                         <li class="nav-item font-familly ">
-                          <a class="nav-link text-dark"  href=""><h3><?php echo $value['TenLoaiHang'] ?></h3></span></a>
-                        </li>
-                        
+                          <a class="nav-link text-dark"  href="./menu.php?MaLoaiHang=<?php echo $value['MaLoaiHang'] ?>"><h3><?php echo $value['TenLoaiHang'] ?></h3></a>
+                          
+
+                        </li>                       
                     </ul>
                     <?php } ?>
                     <?php } ?>                     
-                    </div>
-                </nav>
+            </div>
+            </nav>
+            <div class="col-3"></div>
+            </div>
             </div>
         </div>
     </div>
@@ -211,7 +215,7 @@
     
     <div class="row pb-5 p-0">
         
-        <div class="col-12 mt-5">
+        <div class="col-12 mt-2">
             <p class="text-center" style="font-size: 45px;">Danh mục sản phẩm</p>                                 
         </div>
                    
@@ -221,7 +225,7 @@
     <div class="color-bg p-0">
         <div class="container">
           
-        <div class="row text-center mt-5">
+        <div class="row text-center">
            
               <?php 
                 $sql_hanghoa = mysqli_query($conn, "SELECT * FROM HangHoa hh join HinhHangHoa hinh on hh.MSHH = hinh.MSHH ");
@@ -235,8 +239,7 @@
                         <div class="product-info m-2">
                           <a href="" class="product-1 "><?php echo $row['TenHH'] ?></a>
                             <div class="product-price ">Price: <?php echo $row['Gia'] ?> VND
-                            <a href="./basket.php?MSHH=<?php echo $row['MSHH'] ?>"><i class="fas fa-shopping-cart fa-1x"></i></a>
-                            
+                            <a href="./basket.php?MSHH=<?php echo $row['MSHH'] ?>"><i class="fas fa-shopping-cart fa-1x"></i></a>                            
                             </div>
                         </div>
                       </div>

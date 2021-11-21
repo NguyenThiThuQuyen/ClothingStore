@@ -144,7 +144,6 @@
     </div>
     
 
-
     <div class="container-fluid p-0">
             <div class="col-10">
                 <div class="row">
@@ -161,7 +160,7 @@
                                         </div>  
                                         
                                         <div class="form-group row mt-5 mx-auto">
-                                        <label for="tendangnhap" class="col-sm-3 col-form-label form_label">Tên đăng nhập</label>
+                                        <label for="tendangnhap" class="col-sm-3 col-form-label form_label">Họ tên khách hàng</label>
                                             <div class="col-sm-11">                          
                                                <select class="form-control" id="MSKH" name="MSKH">
                                                     <?php

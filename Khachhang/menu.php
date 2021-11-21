@@ -87,7 +87,7 @@
             <div class="collapse navbar-collapse" id="navbarNav" style="justify-content: space-between;">
             <ul class="navbar-nav">
                 <li class="nav-item active">
-                  <a class="nav-link ml-5" style="font-size: 20px;" href="#"><i class="fas fa-home mr-2"></i>Trang chủ<span class="sr-only">(current)</span></a>
+                  <a class="nav-link ml-5" style="font-size: 20px;" href="./homepage.php"><i class="fas fa-home mr-2"></i>Trang chủ<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
                   <!-- <a class="nav-link" style="font-size: 20px;" href="#">Danh mục sản phẩm</a> -->
@@ -160,19 +160,19 @@
     </div>
     
     <div class="row pb-5 p-0">   
-        <div class="col-12 mt-5">
+        <div class="col-12 mt-3">
             <p class="text-center" style="font-size: 45px;">Sản phẩm theo loại</p>                                 
         </div>               
     </div> 
 
-
     <div class="color-bg p-0">
         <div class="container">
-        <div class="row text-center mt-5">        
+          
+        <div class="row text-center">
               <?php 
-                $sql_hanghoa = mysqli_query($conn, "SELECT * FROM HangHoa hh join HinhHangHoa hinh on hh.MSHH = hinh.MSHH ");
-                if (($sql_hanghoa)) {?>
-                  <?php foreach ($sql_hanghoa as $key => $row){?>
+                $hanghoa = mysqli_query($conn, "SELECT * FROM HangHoa hh join HinhHangHoa hinh on hh.MSHH = hinh.MSHH WHERE MaLoaiHang = " .$_GET['MaLoaiHang']);
+                if (($hanghoa)) {?>
+                  <?php foreach ($hanghoa as $key => $row){?>
                     <div class="col-md-3 mt-4">
                       <div class="card">
                         <div class="product-top img-wrap">                         
@@ -184,33 +184,6 @@
                             <a href="./basket.php?MSHH=<?php echo $row['MSHH'] ?>"><i class="fas fa-shopping-cart fa-1x"></i></a>
                             
                             </div>
-                        </div>
-                      </div>
-                    </div>  
-                  <?php } ?> 
-              <?php } ?>  
-            </div>      
-        </div>
-    </div>
-
-    <div class="color-bg p-0">
-        <div class="container">
-          
-        <div class="row text-center mt-5">
-              <?php 
-                $hanghoa = mysqli_query($conn, "SELECT * FROM HangHoa hh join HinhHangHoa hinh on hh.MSHH = hinh.MSHH WHERE MaLoaiHang = " .$_GET['MaLoaiHang']);
-                if (($hanghoa)) {?>
-                  <?php foreach ($hanghoa as $key => $row){?>
-                    <div class="col-3">
-                      <div class="product-item  ">
-                        <div class="product-top img-wrap">
-                          <a href="" class="product-1">
-                            <td><img src="./picture/<?php echo $row['Hinh'] ?>" alt="" width="70"></td>
-                          </a>
-                        </div>
-                        <div class="product-info m-2">
-                          <a href="" class="product-1" style="font-size:14px"><?php echo $row['TenHH'] ?></a>
-                          <div class="product-price "><?php echo $row['Gia'] ?><i class="fas fa-shopping-cart fa-1x"></i></div>
                         </div>
                       </div>
                     </div>  
