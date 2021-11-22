@@ -47,15 +47,10 @@
         </tr>
         <tr>
             <td>
-                <div class="btn-group dropright">
-                    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="far fa-calendar-minus mr-2"></i>Quản lý đặt hàng
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="">Đặt hàng</a>
-                        <a class="dropdown-item" href="">Chi tiết đặt hàng </a>
-                    </div>
+                <div>
+                    <i class="far fa-calendar-minus mx-3"></i><a class="" style="text-decoration: none; color:black" href="../DatHang/lietke.php">Quản lý đặt hàng</a>                  
                 </div>
+            
             </td>
         </tr>
     </tbody>

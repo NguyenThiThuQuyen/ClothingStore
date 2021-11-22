@@ -16,8 +16,9 @@
     if(isset($_POST['TenHinh'])){
         $TenHinh = $_POST["TenHinh"];
         $MSHH = $_POST["MSHH"];
-      
-        // var_dump($_FILES);
+
+        // echo '<pre>';
+        // print_r($_FILES);
         // die();
         $target_dir = "../../upload/";
         $Hinh = $target_dir . basename($_FILES["Hinh"]["name"]);
@@ -77,6 +78,13 @@
         }
       }
 
+      if(isset($_FILES['Hinhs'])){
+        $TenHinh = $_POST["TenHinh"];
+        $MSHH = $_POST["MSHH"];
+        var_dump($TenHinh);
+        die();
+      }
+
 ?>
 
     <title>Thêm hình hàng hóa</title>
@@ -123,6 +131,12 @@
                                                 <input type="file" class="form-control" name="Hinh" id="Hinh">
                                             </div>
                                         </div>
+                                        <!-- <div class="form-group row mt-5">
+                                            <label for="Hinh" class="col-sm-2 col-form-label form_label">Ảnh mô tả</label>
+                                            <div class="col-sm-8">
+                                                <input type="file" class="form-control" name="Hinhs[]" id="Hinh" multiple="multiple">
+                                            </div>
+                                        </div> -->
                                         <div class="form-group row mt-5">
                                             <label for="" class="col-sm-2 col-form-label form_label">Tên hàng hóa</label>                            
                                             <div class="col-sm-8">

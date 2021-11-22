@@ -105,7 +105,7 @@
                 </div>
                 </li>
                 <li class="nav-item">
-                  <a href="./basket.php" class="nav-link text-dark" style="text-decoration: none; font-size: 20px;"><i class="fas fa-shopping-cart fa-1x mr-3"></i>Giỏ hàng</a>
+                  <a href="./view-basket.php" class="nav-link text-dark" style="text-decoration: none; font-size: 20px;"><i class="fas fa-shopping-cart fa-1x mr-3"></i>Giỏ hàng</a>
               </li>
             </ul>
             <ul class="navbar-nav">

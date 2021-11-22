@@ -42,10 +42,12 @@
                         <table class="table table-bordered table-striped text-center mt-2">
                         <thead>
                             <tr>
-                              <th>MSHH</th>
+                              <!-- <th>MSHH</th> -->
                               <th>Tên</th>
                               <th>Quy cách</th>
                               <th>Giá</th>
+                              <th>Giá KM</th>
+                              <th>Hình</th>
                               <th>Số lượng</th>
                               <th>Tên loại</th>
                               <th>Điều chỉnh</th>                           
@@ -54,10 +56,12 @@
                           <tbody>
                             <?php foreach ($hanghoa as $key => $value) {?>
                             <tr>
-                            <td><?php echo $value['MSHH'] ?></td>
+                            <!-- <td><?php echo $value['MSHH'] ?></td> -->
                               <td><?php echo $value['TenHH'] ?></td>
                               <td><?php echo $value['QuyCach'] ?></td>
                               <td><?php echo $value['Gia'] ?></td>
+                              <td><?php echo $value['GiaKM'] ?></td>
+                              <td><img src="../../upload/<?php echo $value['Hinh'] ?>" alt="" width="70"></td>
                               <td><?php echo $value['SoLuongHang'] ?></td>
                               <td><?php echo $value['TenLoaiHang'] ?></td>
                               <td>

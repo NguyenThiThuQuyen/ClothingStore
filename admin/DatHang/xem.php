@@ -48,7 +48,6 @@
                         <h2 class="text-center mt-5">Chi tiết đơn hàng</h2>
                     </div>
                     
-                    
                     <div class="col-12 mt-4">
                     <form action="" method="post">                          
                             <div class="form-group row mt-3 mx-auto">

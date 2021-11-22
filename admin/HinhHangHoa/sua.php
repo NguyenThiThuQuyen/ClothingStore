@@ -110,8 +110,8 @@
                     <div class="col-9 mt-3">
                     <h2 class="text-center mt-3">SỬA HÌNH HÀNG HÓA</h2>                   
                             <form class="mx-auto" action="" method="post" enctype="multipart/form-data"> 
-                                    <h5 class="mt-5">Nhập thông tin:</h5>
-                                        <div class="form-group row mt-5">
+                                    <h5 class="mt-3">Nhập thông tin:</h5>
+                                        <div class="form-group row mt-3">
                                             <label for="TenHinh" class="col-sm-2 col-form-label form_label">Tên hình</label>
                                             <div class="col-sm-8">
                                                 <input type="text" class="form-control" name="TenHinh" id="TenHinh" value="<?php echo $hhh['TenHinh'] ?>">
