@@ -1,44 +1,23 @@
 <?php
     include '../admin/config/config.php';
-    $loaihanghoa = mysqli_query($conn, "SELECT * FROM loaihanghoa");
-    $hinhhanghoa = mysqli_query($conn, "SELECT * FROM hinhhanghoa");
-    $hanghoa = mysqli_query($conn, "SELECT * FROM hanghoa");
-    session_start();
-    if (!isset($_SESSION['tendangnhap'])) {
-        header("location: ./dangnhap.php");
-    } 
+   session_start();
+      // session_destroy();
+      if (!isset($_SESSION['tendangnhap'])) {
+          header("location: ./dangnhap.php");
+      }
 
-    $diachi = mysqli_query($conn, "SELECT * FROM diachi dc join khachhang kh on dc.MSKH = kh.MSKH WHERE tendangnhap = '".$_SESSION['tendangnhap']."'");
-    $query="SELECT * FROM KhachHang WHERE tendangnhap = '".$_SESSION['tendangnhap']."'";
-    $khachhang = mysqli_fetch_assoc($conn->query($query));
+      $loaihanghoa = mysqli_query($conn, "SELECT * FROM loaihanghoa");
+      $cart = (isset($_SESSION['cart'])) ? $_SESSION['cart'] : [];
+      
+      if(isset($_GET['MSHH'])){
+          $MSHH = $_GET['MSHH'];
+          $hanghoa = mysqli_query($conn, "SELECT * FROM hanghoa WHERE MSHH = '$MSHH'" );
+          $data = mysqli_fetch_assoc($hanghoa);
+      }
+     
+  ?>
 
-    $nhanvien ="SELECT * FROM nhavien";
-
-        if(isset($_POST['submit'])){
-            // var_dump($_POST);
-            $MSKH = $khachhang['MSKH'];           
-            $MaDC = $_POST['MaDC'];               
-            $query = mysqli_query($conn, "INSERT INTO dathang(MSKH, MaDC) 
-                                        VALUES ('$MSKH', '$MaDC')");
-        
-        if($query){
-            $SoDonDH = mysqli_insert_id($conn);
-            if(isset($_SESSION["cart"])){
-            foreach($_SESSION["cart"] as $value){
-                $tamtinh = $value['Gia']*$value['SoLuong'];
-                mysqli_query($conn, "INSERT INTO chitietdathang(SoDonDH, MSHH, SoLuong, GiaDatHang) 
-                            VALUES ('$SoDonDH', '$value[MSHH]', '$value[SoLuong]', '$tamtinh')");
-                
-            }
-        }
-        unset($_SESSION['cart']);
-            echo "Đặt hàng thành công";
-            // header('location: homepage.php');
-        }  
-    }
-
-?>
-
+  
 
 <!DOCTYPE html>
 <html lang="en">
@@ -91,6 +70,18 @@
             
     }
 
+
+    a{
+
+      text-decoration: none;
+      color: black;
+    }
+
+    a:hover{
+      color: black;
+      text-decoration: none
+    }
+
     .img-wrap {
             height: 330px;
             overflow: hidden;
@@ -104,7 +95,7 @@
 
 <body>
     <div class="container-fluid p-0">
-        <nav class="navbar navbar-expand-md navbar-light navbar-bg">
+        <nav class="navbar navbar-expand-md navbar-light bg-white">
             <a class="navbar-brand ml-4" href="#"><h3 class="font">Quinn Boutique</h3></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
@@ -112,13 +103,13 @@
             <div class="collapse navbar-collapse" id="navbarNav" style="justify-content: space-between;">
             <ul class="navbar-nav">
                 <li class="nav-item active">
-                  <a class="nav-link ml-5" style="font-size: 20px;" href="homepage.php"><i class="fas fa-home mr-3"></i>Trang chủ<span class="sr-only">(current)</span></a>
+                  <a class="nav-link ml-5" style="font-size: 20px;" href="./homepage.php"><i class="fas fa-home mr-2"></i>Trang chủ<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
                   <!-- <a class="nav-link" style="font-size: 20px;" href="#">Danh mục sản phẩm</a> -->
                 <div class="dropdown">
                     <button class="btn dropdown-toggle" style="font-size: 20px;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-bars fa-1x mr-3"></i>Danh mục sản phẩm
+                        <i class="fas fa-bars fa-1x mr-2"></i>Danh mục sản phẩm
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <?php if (($loaihanghoa)) {?>
@@ -130,10 +121,14 @@
                 </div>
                 </li>
                 <li class="nav-item">
-                      <a href="./basket.php" class="nav-link text-dark" style="text-decoration: none; font-size: 20px;"><i class="fas fa-shopping-cart fa-1x mr-3"></i>Giỏ hàng</a>
-                </li>
+                  <a href="./view-basket.php" class="nav-link text-dark" style="text-decoration: none; font-size: 20px;">
+                    <i class="fas fa-shopping-cart fa-1x mr-3"></i>Giỏ hàng (<?php echo count($cart) ?>)
+                  </a>
+              </li>
             </ul>
             <ul class="navbar-nav">
+             
+              
                 <li class="nav-item ml-4">
                 <div style="font-size: 20px;">                   
                 <i class="fas fa-user"></i>
@@ -156,53 +151,75 @@
             
             </div>
           </nav>
-
-    </div>
-    
-
-        <div class="container-fluid">
-            <div class="row ml-0 mt-4">
-                <div class="col-4"></div>
-                <div class="col-4">
-                    <h4 class="card-title text-center mt-3">Thông tin khách hàng</h4>
-                    <form action="" method="post">                   
-                        <div class="form-group row mt-4 mx-auto">
-                        <label for="HoTenKH" class="col-sm-3 col-form-label form_label">Họ Tên</label>
-                            <div class="col-sm-12">                          
-                                <input type="text" class="form-control" name="HoTenKH" id="HoTenKH" value="<?=$khachhang['HoTenKH'] ?>">                               
-                            </div>
-                        </div>
-                        <div class="form-group row mt-3 mx-auto">
-                        <label for="SoDienThoai" class="col-sm-3 col-form-label form_label">Số điện thoại</label>
-                            <div class="col-sm-12">
-                                <input type="text" class="form-control" name="SoDienThoai" id="SoDienThoai" value="<?php echo $khachhang['SoDienThoai'] ?>">                              
-                            </div>
-                        </div>                   
-                        
-                            <button type="submit" name="update" class="mt-2 ml-3">
-                                <a href="diachi.php" class="text-dark" style="text-decoration: none;">Thêm địa chỉ</a>
-                            </button>
-                        
-                        <div class="form-group row mt-3 mx-auto">
-                        <label for="DiaChi" class="col-sm-3 col-form-label form_label">Địa chỉ</label>
-                            <div class="col-sm-12">
-                            <select class="form-control" id="MaDC" name="MaDC">
-                                <?php
-                                while($row_diachi = mysqli_fetch_assoc($diachi)){?>
-                                <option value="<?php echo $row_diachi['MaDC'] ?>"><?php echo $row_diachi['DiaChi'] ?></option>
-                                <?php } ?>
-                            </select>                              
-                            </div>
-                        </div>
-                        <button type="submit" name='submit' class="btn btn-outline btn-lg float-right navbar-bg btn-light mr-2 my-3">THANH TOÁN</button>                    
-                    </form>
-                <div class="col-4"></div>
-                </div>
+        <div class="row navbar-bg p-0">
+            <div class="col-12 text-center">
+                <h1 class="font-familly pt-3">Trải nghiệm mua sắm cùng <h1 class="font">Quinn Boutique</h1></h1>
             </div>
+            <div class="col-3" class="collapse navbar-collapse" id="navbarSupportedContent">
+                
+            </div>           
+
+            <div class="col-6 pt-3 pb-3">
+                <nav>
+                    <form class="form-inline">
+                        <input class="form-control mr-sm-2" style="width: 85%;" type="search" placeholder="Tìm kiếm cùng Quinn Boutique" aria-label="Search">
+                        <button class="btn btn-outline-light color-btn my-2 my-sm-0 text-dark"  type="submit">Tìm kiếm</button>
+                    </form>
+                </nav>
+            </div>
+
         </div>
 
 
-        <div class="container-fluid mt-5 p-0">
+
+    <div class="color-bg p-0">
+      <div class="container">  
+        <div class="row text-center">       
+            <div class="col-md-3 mt-4">
+              <div class="card">
+                <div class="product-top img-wrap">                         
+                    <img class="card-img-top img-wrap" src="../upload/<?php echo $data['Hinh'] ?>" alt="">                          
+                </div>
+              </div>
+            </div>
+            <div class="col-md-9 mt-3" style="text-align: left">
+              <div class="product-info m-2">
+                <h3><?php echo $data['TenHH'] ?></h3>
+                    <form action="basket.php" method="GET">
+                    <div class="product-price my-3">
+                      <!-- Giá sản phẩm: <?php echo $data['Gia'] ?> VND -->
+                      <?php if($data['GiaKM'] > 0) { ?>
+                      <p>
+                        Giá: <del> <?php echo($data['Gia']) ?></del> VND 
+                        
+                      </p>
+                      <p>
+                      Giá khyến mãi:
+                          <span style="color:red">
+                            <?php echo($data['GiaKM']) ?>
+                          </span> VND 
+                        </p>
+                      <?php }else { ?>
+                        <p>
+                        Giá:
+                          <span style="color:red">
+                            <?php echo($data['Gia']) ?>
+                          </span> VND
+                        </p>
+                        <?php } ?>
+                        <input type="number" name="SoLuong" id="" value="1">
+                        <input type="hidden" name="MSHH" value="<?php echo $data['MSHH'] ?>">
+                    </div>
+                    <button class="btn bg-primary my-3 my-sm-0 text-dark mt-4" type="submit">Thêm vào giỏ hàng</button>
+                    </form>
+                </div>
+            </div>  
+          </div>      
+        </div>
+    </div>
+
+
+    <div class="container-fluid p-0">
         <div class="nav bg-dark" style="justify-content: space-evenly;">
             <ul class="nav-list">
                 <li class="nav-item text-center text-white mt-3" style="list-style: none;">Hotline: 079.268.268</li>

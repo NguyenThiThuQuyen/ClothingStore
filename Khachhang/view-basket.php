@@ -1,8 +1,8 @@
 
 <?php
     include '../admin/config/config.php'; 
+    include 'function_giohang.php';
     $loaihanghoa = mysqli_query($conn, "SELECT * FROM loaihanghoa");
-    $hinhhanghoa = mysqli_query($conn, "SELECT * FROM hinhhanghoa");
     $hanghoa = mysqli_query($conn, "SELECT * FROM hanghoa");
     session_start();
     if (!isset($_SESSION['tendangnhap'])) {
@@ -10,10 +10,7 @@
     }
     
     $cart = (isset($_SESSION['cart'])) ? $_SESSION['cart'] : [];
-    // echo "<pre>";
-    // print_r($cart);
-
- 
+   
 ?>
 
 <!DOCTYPE html>
@@ -98,7 +95,9 @@
                 </div>
                 </li>
                 <li class="nav-item">
-                  <a href="./basket.php" class="nav-link text-dark" style="text-decoration: none; font-size: 20px;"><i class="fas fa-shopping-cart fa-1x mr-3"></i>Giỏ hàng</a>
+                  <a href="./basket.php" class="nav-link text-dark" style="text-decoration: none; font-size: 20px;">
+                    <i class="fas fa-shopping-cart fa-1x mr-3"></i>Giỏ hàng  (<?php echo count($cart) ?>)
+                </a>
               </li>
             </ul>
             <ul class="navbar-nav">         
@@ -126,8 +125,7 @@
           </nav>
 
     </div>
-
-
+    
     <div class="container-fluid">
         <div class="row mt-5 mb-4">
             <div class="col-12 text-center">
@@ -136,14 +134,12 @@
         </div>
     </div>
 
-
-<form action="" method="post">
     <div class="container">    
         <table class="table">
             <thead>
             <tr>                
                 <th scope="col">Tên sản phẩm</th>
-                <!-- <th scope="col">Hình ảnh</th> -->
+                <th scope="col">Hình ảnh</th>
                 <th scope="col">Giá bán</th>
                 <th scope="col">Số lượng</th>
                 <th scope="col">Tạm tính</th>
@@ -151,29 +147,30 @@
             </tr>
             </thead>
             <tbody>
-            <?php if(isset($_SESSION['cart'])){
-                $tonghoadon = 0;
-                foreach ($_SESSION['cart'] as $value){                
-                $tong = 0;
-                $tong = $value['Gia']*$value['SoLuong'];              
-                $tonghoadon += ($value['Gia']*$value['SoLuong']);
+            <?php 
+            if(isset($cart)){             
+                foreach ($cart as $value){                              
             ?>
                 <tr>                
                     <td><?php echo $value['TenHH'] ?></td>                           
+                    <td><img src="../upload/<?php echo $value['Hinh'] ?>" alt="" width="80"></td>                           
                     <td><?php echo $value['Gia'] ?></td>
-                    <td><input type="number" min="1" name="SoLuong<?php echo $value['MSHH'] ?>" value="<?php echo $value['SoLuong'] ?>"></td>
-                    <td><?php echo number_format  ($tong,0,",",".") ?></td>  
-                    <td><a href="" class="btn btn-danger">Xóa</a></td>
-                
+                    <td>
+                        <form action="basket.php">
+                            <input type="hidden" name="action" value="update">
+                            <input type="hidden" name="MSHH" value="<?php echo $value['MSHH'] ?>">
+                            <input type="number" min="1" name="SoLuong" value="<?php echo $value['SoLuong'] ?>">
+                            <button type="submit">Cập nhật</button>
+                        </form>
+                    </td>
+                    <td><?php echo number_format  ($value['Gia'] * $value['SoLuong']) ?></td>  
+                    <td><a href="./basket.php?MSHH=<?php echo $value['MSHH'] ?>&action=delete" class="btn btn-danger">Xóa</a></td>
                 </tr>
             <?php }
              } ?>
             </tbody>
         </table>
-        <div class="float-right mt-3">
-            <button type="submit" name="update">UPDATE CART</button>
-        </div>
-        <!-- <button type="submit" name="update">UPDATE CART</button> -->
+
     <button type="button" class="btn btn-outline btn-lg navbar-bg btn-light mt-5">
           <a href="homepage.php" class="text-dark" style="text-decoration: none;">Tiếp tục mua hàng</a>
     </button>
@@ -185,7 +182,7 @@
             <p class="container mt-2" style="border-bottom: 2px solid #222; width:100%;"></p>
             <div>
                 Tổng tiền:
-                <?php echo number_format($tonghoadon) ?> VND
+                <?php echo number_format (tonghoadon($cart)) ?> VND
             </div>                                
             <button type="button" class="btn btn-outline btn-lg navbar-bg btn-light mt-5">
                 <a href="thanhtoan.php" class="text-dark" style="text-decoration: none;"><i class="fas fa-check mr-2"></i>TIẾN HÀNH THANH TOÁN</a>
@@ -194,7 +191,7 @@
     </div>
 
    </div>
-</form>
+
     
    
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

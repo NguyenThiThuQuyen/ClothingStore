@@ -3,14 +3,15 @@
     $loaihanghoa = mysqli_query($conn, "SELECT * FROM loaihanghoa");
     $hinhhanghoa = mysqli_query($conn, "SELECT * FROM hinhhanghoa");
     $hanghoa = mysqli_query($conn, "SELECT * FROM hanghoa");
-   
-?>
-  <?php
+
    session_start();
       // session_destroy();
       if (!isset($_SESSION['tendangnhap'])) {
           header("location: ./dangnhap.php");
       }
+
+      $cart = (isset($_SESSION['cart'])) ? $_SESSION['cart'] : [];
+
   ?>
 
   
@@ -66,6 +67,11 @@
             
     }
 
+    a{
+      text-decoration: none;
+      color: black;
+    }
+
     .img-wrap {
             height: 330px;
             overflow: hidden;
@@ -105,7 +111,9 @@
                 </div>
                 </li>
                 <li class="nav-item">
-                  <a href="./view-basket.php" class="nav-link text-dark" style="text-decoration: none; font-size: 20px;"><i class="fas fa-shopping-cart fa-1x mr-3"></i>Giỏ hàng</a>
+                  <a href="./view-basket.php" class="nav-link text-dark" style="text-decoration: none; font-size: 20px;">
+                    <i class="fas fa-shopping-cart fa-1x mr-3"></i>Giỏ hàng (<?php echo count($cart) ?>)
+                  </a>
               </li>
             </ul>
             <ul class="navbar-nav">
@@ -167,9 +175,7 @@
                     <?php foreach ($loaihanghoa as $key => $value) {?>
                     <ul class="navbar-nav">
                         <li class="nav-item font-familly ">
-                          <a class="nav-link text-dark"  href="./menu.php?MaLoaiHang=<?php echo $value['MaLoaiHang'] ?>"><h3><?php echo $value['TenLoaiHang'] ?></h3></a>
-                          
-
+                          <a class="nav-link text-dark"  href="./menu.php?MaLoaiHang=<?php echo $value['MaLoaiHang'] ?>"><h3><?php echo $value['TenLoaiHang'] ?></h3></a>                          
                         </li>                       
                     </ul>
                     <?php } ?>
@@ -228,18 +234,19 @@
         <div class="row text-center">
            
               <?php 
-                $sql_hanghoa = mysqli_query($conn, "SELECT * FROM HangHoa hh join HinhHangHoa hinh on hh.MSHH = hinh.MSHH ");
+                $sql_hanghoa = mysqli_query($conn, "SELECT * FROM HangHoa");
                 if (($sql_hanghoa)) {?>
                   <?php foreach ($sql_hanghoa as $key => $row){?>
                     <div class="col-md-3 mt-4">
                       <div class="card">
                         <div class="product-top img-wrap">                         
-                            <img class="card-img-top img-wrap" src="./picture/<?php echo $row['Hinh'] ?>" alt="" >                          
+                            <img class="card-img-top img-wrap" src="../upload/<?php echo $row['Hinh'] ?>" alt="" >                          
                         </div>
                         <div class="product-info m-2">
-                          <a href="" class="product-1 "><?php echo $row['TenHH'] ?></a>
+                          <a href="" class="product-1"><?php echo $row['TenHH'] ?></a>
                             <div class="product-price ">Price: <?php echo $row['Gia'] ?> VND
-                            <a href="./basket.php?MSHH=<?php echo $row['MSHH'] ?>"><i class="fas fa-shopping-cart fa-1x"></i></a>                            
+                            <a href="./basket.php?MSHH=<?php echo $row['MSHH'] ?>"><i class="fas fa-shopping-cart fa-1x"></i></a>
+                            <button class="btn btn-outline-light color-btn my-3 my-sm-0 text-dark"><a href="./chitietsp.php?MSHH=<?php echo $row['MSHH'] ?>">Xem chi tiết</a></button>
                             </div>
                         </div>
                       </div>
