@@ -3,7 +3,7 @@
     if (!isset($_GET['logout'])){
         session_destroy();
         unset($_SESSION['tendangnhap']);
-        header("location: ../index.php");
+        header("location: ../Khachhang/dangnhap.php");
     }
 
 ?>

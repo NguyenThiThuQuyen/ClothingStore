@@ -1,3 +1,4 @@
+<script>
 <?php
     include '../admin/config/config.php';
     $loaihanghoa = mysqli_query($conn, "SELECT * FROM loaihanghoa");
@@ -7,6 +8,7 @@
     if (!isset($_SESSION['tendangnhap'])) {
         header("location: ./dangnhap.php");
     } 
+    $cart = (isset($_SESSION['cart'])) ? $_SESSION['cart'] : [];
 
     $diachi = mysqli_query($conn, "SELECT * FROM diachi dc join khachhang kh on dc.MSKH = kh.MSKH WHERE tendangnhap = '".$_SESSION['tendangnhap']."'");
     $query="SELECT * FROM KhachHang WHERE tendangnhap = '".$_SESSION['tendangnhap']."'";
@@ -31,13 +33,19 @@
                 
             }
         }
+        ?>
+            alert("<?php echo "Đặt hàng thành công"; ?>");
+        <?php
+       
         unset($_SESSION['cart']);
-            echo "Đặt hàng thành công";
-            // header('location: homepage.php');
-        }  
+        
+        } 
     }
 
+
 ?>
+	
+</script>  
 
 
 <!DOCTYPE html>
@@ -130,7 +138,8 @@
                 </div>
                 </li>
                 <li class="nav-item">
-                      <a href="./basket.php" class="nav-link text-dark" style="text-decoration: none; font-size: 20px;"><i class="fas fa-shopping-cart fa-1x mr-3"></i>Giỏ hàng</a>
+              
+                <!-- <a href="./basket.php" class="nav-link text-dark" style="text-decoration: none; font-size: 20px;"><i class="fas fa-shopping-cart fa-1x mr-3"></i>Giỏ hàng</a> -->
                 </li>
             </ul>
             <ul class="navbar-nav">
@@ -194,7 +203,10 @@
                             </select>                              
                             </div>
                         </div>
-                        <button type="submit" name='submit' class="btn btn-outline btn-lg float-right navbar-bg btn-light mr-2 my-3">THANH TOÁN</button>                    
+                        <button type="submit" name='submit' class="btn btn-outline btn-lg float-right navbar-bg btn-light mr-2 my-3">THANH TOÁN</button>
+                        <button type="button" class="btn btn-outline btn-lg navbar-bg btn-light ml-3 mt-3 px-4" data-dismiss="modal"><a href="./view-basket.php" style="text-decoration: none; color:black">Trở về</a></button>
+                                   
+                                      
                     </form>
                 <div class="col-4"></div>
                 </div>

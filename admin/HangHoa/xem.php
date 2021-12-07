@@ -45,6 +45,7 @@
                             <tr>
                               <th>MSHH</th>
                               <th>Tên</th>
+                              <th>Hình ảnh</th>
                               <th>Quy cách</th>
                               <th>Giá</th>
                               <th>Số lượng</th>
@@ -53,11 +54,11 @@
                           </thead>
                           <tbody>
                             <?php
-                            
                             foreach ($hanghoa as $key => $value) {?>
                             <tr>
                             <td><?php echo $value['MSHH'] ?></td>
                               <td><?php echo $value['TenHH'] ?></td>
+                              <td><img src="../../upload/<?php echo $value['Hinh'] ?>" alt="" width="70"></td>
                               <td><?php echo $value['QuyCach'] ?></td>
                               <td><?php echo $value['Gia'] ?></td>
                               <td><?php echo $value['SoLuongHang'] ?></td>
@@ -66,6 +67,10 @@
                             <?php }?>
                           </tbody>
                         </table>
+                                <div class="my-5">
+                                    <button type="button" class="btn btn-secondary px-4" data-dismiss="modal"><a href="./danhsach.php" style="text-decoration: none; color:white">Trở về</a></button>
+                                   
+                                    </div>
                       </div>             
                     </div>
                 </div>

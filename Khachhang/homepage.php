@@ -3,13 +3,10 @@
     $loaihanghoa = mysqli_query($conn, "SELECT * FROM loaihanghoa");
     $hinhhanghoa = mysqli_query($conn, "SELECT * FROM hinhhanghoa");
     $hanghoa = mysqli_query($conn, "SELECT * FROM hanghoa");
-
    session_start();
-      // session_destroy();
       if (!isset($_SESSION['tendangnhap'])) {
           header("location: ./dangnhap.php");
       }
-
       $cart = (isset($_SESSION['cart'])) ? $_SESSION['cart'] : [];
 
   ?>
@@ -93,7 +90,7 @@
             <div class="collapse navbar-collapse" id="navbarNav" style="justify-content: space-between;">
             <ul class="navbar-nav">
                 <li class="nav-item active">
-                  <a class="nav-link ml-5" style="font-size: 20px;" href="#"><i class="fas fa-home mr-2"></i>Trang chủ<span class="sr-only">(current)</span></a>
+                  <a class="nav-link ml-5" style="font-size: 20px;" href="./homepage.php"><i class="fas fa-home mr-2"></i>Trang chủ<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
                   <!-- <a class="nav-link" style="font-size: 20px;" href="#">Danh mục sản phẩm</a> -->
@@ -151,18 +148,44 @@
 
             <div class="col-6 pt-3 pb-3">
                 <nav>
-                    <form class="form-inline">
-                        <input class="form-control mr-sm-2" style="width: 85%;" type="search" placeholder="Tìm kiếm cùng Quinn Boutique" aria-label="Search">
+                    <form class="form-inline" id="timsp" method="GET">
+                        <input class="form-control mr-sm-2" name="name" style="width: 85%;" type="search" placeholder="Tìm kiếm cùng Quinn Boutique" aria-label="Search">
                         <button class="btn btn-outline-light color-btn my-2 my-sm-0 text-dark"  type="submit">Tìm kiếm</button>
                     </form>
                 </nav>
             </div>
             <div class="col-3">
-                <!-- <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active ml-5">
-                      <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"><i class="fas fa-shopping-cart fa-1x"></i>Giỏ hàng<span class="sr-only">(current)</span></a>
-                    </li>
-                </ul> -->
+            </div>
+            <div class="container">     
+              <div class="row text-center">    
+                <div class="col-md-3 mt-4">
+                <?php
+                if(isset($_GET['name'])){
+                  $timkiem = $_GET['name'];
+                  $sql_timkiem = "SELECT * FROM hanghoa WHERE TenHH LIKE '%$timkiem%'";
+                  $query = mysqli_query($conn, $sql_timkiem);
+                  while($result = mysqli_fetch_array($query)){
+                    $MSHH = $result['MSHH'];
+                  $sql_show = "SELECT * FROM hanghoa WHERE MSHH ='$MSHH'";
+                  $query_show = mysqli_query($conn, $sql_show);
+                  while ($result_sp = mysqli_fetch_array($query_show)) { ?>
+                  <div class="card">
+                    <div class="product-top img-wrap">                         
+                        <img class="card-img-top img-wrap" name="Hinh" src="../upload/<?php echo $result_sp['Hinh'] ?>" >                          
+                    </div>
+                    <div class="product-info m-2">
+                      <a href="" name="Ten" class="product-1"><?php echo $result['TenHH']  ?></a>
+                        <div name="Gia" class="product-price ">Giá: <?php echo $result['Gia'] ?> 
+                          <a href="./basket.php?MSHH=<?php echo $result['MSHH'] ?>"><i class="fas fa-shopping-cart fa-1x"></i></a>
+                          <button class="btn btn-outline-light color-btn my-3 my-sm-0 text-dark"  type ="submit" >
+                            <a href="./chitietsp.php?MSHH=<?php echo $result['MSHH'] ?>">Xem chi tiết</a>
+                          </button>
+                        </div>
+                    </div>
+                    </div> 
+                  <?php } } } ?>
+                </div>    
+              </div>      
             </div>
         </div>
 
@@ -217,22 +240,14 @@
             </a>
           </div>
     </div>
-
-    
     <div class="row pb-5 p-0">
-        
         <div class="col-12 mt-2">
             <p class="text-center" style="font-size: 45px;">Danh mục sản phẩm</p>                                 
-        </div>
-                   
+        </div>             
     </div> 
-
-
     <div class="color-bg p-0">
         <div class="container">
-          
         <div class="row text-center">
-           
               <?php 
                 $sql_hanghoa = mysqli_query($conn, "SELECT * FROM HangHoa");
                 if (($sql_hanghoa)) {?>

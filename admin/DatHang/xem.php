@@ -42,7 +42,7 @@
                 <div class="row">
                     <div class="col-12 mt-3">
                         <div class="form-group form-check float-right">
-                            <a href="./them.php" class="mr-4 text-dark"><i class="fas fa-plus"></i> Thêm mới</a>
+                          
                             <a href="" class="mr-3 text-dark"><i class="fas fa-download"></i> Xuất excel</a>
                         </div>
                         <h2 class="text-center mt-5">Chi tiết đơn hàng</h2>
@@ -104,6 +104,10 @@
                                 <td colspan="6">Tổng tiền: <?php echo $tonghoadon?></td>
                             </tr>
                         </table>
+                        <div class="my-5">
+                                    <button type="button" class="btn btn-secondary px-4" data-dismiss="modal"><a href="./lietke.php" style="text-decoration: none; color:white">Trở về</a></button>
+                                   
+                                    </div>
                            
                       </div> 
                                    

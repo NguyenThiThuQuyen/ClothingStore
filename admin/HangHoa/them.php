@@ -19,6 +19,7 @@
         $Hinh = $_FILES["Hinh"];
         $SoLuongHang = $_POST["SoLuongHang"];
         $MaLoaiHang = $_POST["MaLoaiHang"];
+        $MoTa = $_POST["MoTa"];
 
         // echo '<pre>';
         // print_r($_FILES);
@@ -41,8 +42,8 @@
             }
         }
 
-        $sql = "INSERT INTO hanghoa(TenHH, QuyCach, Gia, GiaKM, Hinh, SoLuongHang, MaLoaiHang)
-                VALUES ( '$TenHH', '$QuyCach', '$Gia', '$GiaKM', '$file_name', '$SoLuongHang', '$MaLoaiHang')";
+        $sql = "INSERT INTO hanghoa(TenHH, QuyCach, Gia, GiaKM, Hinh, SoLuongHang, MaLoaiHang, MoTa)
+                VALUES ( '$TenHH', '$QuyCach', '$Gia', '$GiaKM', '$file_name', '$SoLuongHang', '$MaLoaiHang', '$MoTa')";
         $query = mysqli_query($conn, $sql);
         $mahh = mysqli_insert_id($conn);
         foreach($file_names as $key => $value){
@@ -115,7 +116,7 @@
                                                 <input type="file" class="form-control" name="Hinh" id="Hinh">
                                             </div>
                                         </div>
-                                        <div class="form-group row mt-5">
+                                        <div class="form-group row mt-3">
                                             <label for="Hinh" class="col-sm-2 col-form-label form_label">Ảnh mô tả</label>
                                             <div class="col-sm-8">
                                                 <input type="file" class="form-control" name="Hinhs[]" id="Hinh" multiple="multiple">
@@ -138,11 +139,19 @@
 
                                             </select>
                                             </div>
+                                        </div>
+                                        <div class="form-group row mt-3">
+                                            <label for="MoTa" class="col-sm-2 col-form-label form_label">Mô tả sản phẩm</label>
+                                            <div class="col-sm-8">
+                                                <!-- <textarea type="text" class="form-control" name="MoTa" id="MoTa"></textarea> -->
+                                                 <input type="text" class="form-control" id="MoTa" name="MoTa" >
+                                            </div>
                                         </div>                            
                                     <div class="form-group row mt-3 float-right" style="margin-right: 150px">
                                         <div class="col-sm-8 d-flex">
                                             <button type="submit" class="btn btn-outline-light color-btn my-2 my-sm-0 text-dark mr-2 px-4" name="submit" id="submit">Lưu</button>
-                                            <button type="button" class="btn btn-secondary px-4" data-dismiss="modal">Hủy</button>                                            
+                                            <button type="button" class="btn btn-secondary px-4" data-dismiss="modal"><a href="./danhsach.php" style="text-decoration: none; color:white">Hủy</a></button>  
+                                                                               
                                         </div>
                                     </div>
                                 

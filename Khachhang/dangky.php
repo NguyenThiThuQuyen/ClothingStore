@@ -31,7 +31,7 @@
 
     <style>
     body{
-            background-image: url("../picture/bg2.jpeg");
+            background-image: url("../upload/bg2.jpeg");
             background-repeat: no-repeat;
             background-size: cover;
         }

@@ -8,47 +8,33 @@
     <tbody class="bg-light">
         <tr>
             <td>
-                <div class="btn-group dropright bg-black">
-                    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-address-book mr-2"></i>Quản lý khách hàng
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="">Khách hàng</a>
-                        <a class="dropdown-item" href="">Địa chỉ khách hàng</a>
-                    </div>
+                <div>
+                    <i class="fas fa-user-tie mx-3"></i><a class="" style="text-decoration: none; color:black" href="../NhanVien/danhsach.php">Nhân viên</a>                  
                 </div>
+            
             </td>
         </tr>
+
         <tr>
             <td>
-                <div class="btn-group dropright">
-                    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-user-tie mr-2"></i>Quản lý nhân viên
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="../NhanVien/danhsach.php">Nhân viên</a>
-                    </div>
+                <div>
+                    <i class="fab fa-elementor mx-3"></i><a class="" style="text-decoration: none; color:black" href="../HangHoa/danhsach.php">Hàng hóa</a>                  
                 </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div class="btn-group dropright">
-                    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fab fa-elementor mr-2"></i>Quản lý hàng hóa
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="../HangHoa/danhsach.php">Hàng hóa</a>
-                        <a class="dropdown-item" href="../LoaiHangHoa/danhsach.php">Loại hàng hóa</a>
-                        <a class="dropdown-item" href="../HinhHangHoa/danhsach.php">Hình hàng hóa</a>
-                    </div>
-                </div>
+            
             </td>
         </tr>
         <tr>
             <td>
                 <div>
-                    <i class="far fa-calendar-minus mx-3"></i><a class="" style="text-decoration: none; color:black" href="../DatHang/lietke.php">Quản lý đặt hàng</a>                  
+                    <i class="fab fa-elementor mx-3"></i><a class="" style="text-decoration: none; color:black" href="../LoaiHangHoa/danhsach.php">Loại hàng hóa</a>                  
+                </div>
+            
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div>
+                    <i class="far fa-calendar-minus mx-3"></i><a class="" style="text-decoration: none; color:black" href="../DatHang/lietke.php">Đặt hàng</a>                  
                 </div>
             
             </td>

@@ -14,6 +14,9 @@
           $hanghoa = mysqli_query($conn, "SELECT * FROM hanghoa WHERE MSHH = '$MSHH'" );
           $data = mysqli_fetch_assoc($hanghoa);
       }
+
+    // $sql_hanghoa = mysqli_query($conn, "SELECT * FROM HangHoa hh join HinhHangHoa hinh on hh.MSHH = hinh.MSHH WHERE MaLoaiHang = " .$_GET['MaLoaiHang']);
+
      
   ?>
 
@@ -151,30 +154,14 @@
             
             </div>
           </nav>
-        <div class="row navbar-bg p-0">
-            <div class="col-12 text-center">
-                <h1 class="font-familly pt-3">Trải nghiệm mua sắm cùng <h1 class="font">Quinn Boutique</h1></h1>
-            </div>
-            <div class="col-3" class="collapse navbar-collapse" id="navbarSupportedContent">
-                
-            </div>           
-
-            <div class="col-6 pt-3 pb-3">
-                <nav>
-                    <form class="form-inline">
-                        <input class="form-control mr-sm-2" style="width: 85%;" type="search" placeholder="Tìm kiếm cùng Quinn Boutique" aria-label="Search">
-                        <button class="btn btn-outline-light color-btn my-2 my-sm-0 text-dark"  type="submit">Tìm kiếm</button>
-                    </form>
-                </nav>
-            </div>
-
-        </div>
+        
 
 
 
     <div class="color-bg p-0">
-      <div class="container">  
-        <div class="row text-center">       
+    <div class="text-center"><h2><i class="mt-5">Chi tiết sản phẩm</i></h2></div>
+      <div class="container">   
+        <div class="row text-center">         
             <div class="col-md-3 mt-4">
               <div class="card">
                 <div class="product-top img-wrap">                         
@@ -191,7 +178,6 @@
                       <?php if($data['GiaKM'] > 0) { ?>
                       <p>
                         Giá: <del> <?php echo($data['Gia']) ?></del> VND 
-                        
                       </p>
                       <p>
                       Giá khyến mãi:
@@ -207,10 +193,13 @@
                           </span> VND
                         </p>
                         <?php } ?>
-                        <input type="number" name="SoLuong" id="" value="1">
+                        <input type="number" min="1" name="SoLuong" id="" value="1">
                         <input type="hidden" name="MSHH" value="<?php echo $data['MSHH'] ?>">
                     </div>
                     <button class="btn bg-primary my-3 my-sm-0 text-dark mt-4" type="submit">Thêm vào giỏ hàng</button>
+                    <p>
+                    <?php echo $data['MoTa'] ?>
+                    </p>
                     </form>
                 </div>
             </div>  
@@ -219,7 +208,7 @@
     </div>
 
 
-    <div class="container-fluid p-0">
+    <div class="container-fluid p-0 fixed-bottom">
         <div class="nav bg-dark" style="justify-content: space-evenly;">
             <ul class="nav-list">
                 <li class="nav-item text-center text-white mt-3" style="list-style: none;">Hotline: 079.268.268</li>

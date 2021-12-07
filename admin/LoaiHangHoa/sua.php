@@ -62,11 +62,19 @@
                                                 <input type="text" class="form-control" name="TenLoaiHang" id="TenLoaiHang" value="<?php echo $lhh['TenLoaiHang'] ?>">
                                             </div>
                                         </div>                                
-                                    <div class="form-group row mt-3 float-right" style="margin-right: 150px">
+                                    <!-- <div class="form-group row mt-3 float-right" style="margin-right: 150px">
                                         <div class="col-sm-8 d-flex">
                                             <button type="submit" class="btn btn-outline-light color-btn my-2 my-sm-0 text-dark mr-2 px-4" name="submit" id="submit">Lưu</button>
                                             <button type="button" class="btn btn-secondary px-4" data-dismiss="modal">Hủy</button>                                            
                                         </div>
+                                    </div> -->
+                                    <div class="my-5">
+                                    <button type="button" class="btn btn-secondary px-4" data-dismiss="modal"><a href="./danhsach.php" style="text-decoration: none; color:white">Trở về</a></button>
+                                    <div class=" form-group row float-right" style="margin-right: 130px">
+                                        <div class="col-sm-8 d-flex">
+                                            <button type="submit" class="btn btn-outline-light color-btn my-2 my-sm-0 text-dark mr-2 px-4" name="submit" id="submit"><b>Lưu</b></button>                                               
+                                        </div>
+                                    </div>
                                     </div>
                                 </div>
                             </form>                      

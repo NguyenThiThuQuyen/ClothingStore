@@ -54,6 +54,10 @@
                             <?php } ?>
                           </tbody>
                         </table>
+                        <div class="my-5">
+                                    <button type="button" class="btn btn-secondary px-4" data-dismiss="modal"><a href="./danhsach.php" style="text-decoration: none; color:white">Trở về</a></button>
+                                   
+                                    </div>
                       </div>
              
                     </div>

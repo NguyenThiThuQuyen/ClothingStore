@@ -32,7 +32,7 @@
 
     <style>
     body{
-            background-image: url("../picture/bg2.jpeg");
+            background-image: url("../upload/bg2.jpeg");
             background-repeat: no-repeat;
             background-size: cover;
         }
@@ -72,8 +72,7 @@
                                <button type="submit" name="dangnhap" class="btn btn-outline-light color-btn text-dark float-right">Đăng nhập</button>
                             </div>
                             <div class="text-center mt-5">
-                                <h6>Chưa có tài khoản? <a href="./dangky.php" class="color">Đăng nhập</a></h6>
-
+                                <h6>.</h6>
                             </div>
                         </div>                                        
                        </form>

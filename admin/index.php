@@ -30,7 +30,7 @@
 <style>
 html,body {
     font-family: 'Arial';
-    background-image: url(../picture/bg.jpg);
+    background-image: url(../upload/bg.jpg);
     background-repeat: no-repeat;
     background-size: 1100px;
     }
@@ -97,10 +97,9 @@ html,body {
                 <i class="fas fa-bars fa-1x mr-2"></i>Danh mục
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" href="">Khách hàng</a>
-              <a class="dropdown-item" href="">Nhân viên</a>
-              <a class="dropdown-item" href="">Hàng hóa</a>
-              <a class="dropdown-item" href="">Đặt hàng</a>
+              <a class="dropdown-item" href="NhanVien/danhsach.php">Nhân viên</a>
+              <a class="dropdown-item" href="HangHoa/danhsach.php">Hàng hóa</a>
+              <a class="dropdown-item" href="DatHang/lietke.php">Đặt hàng</a>
             </div>
         </div>
     </li>
@@ -136,9 +135,8 @@ html,body {
 
         <div class="col-7">
             <ul class="mt-4">
-                <li class="d-inline ml-5"><a href="">Quản lý đặt hàng</a></li>
+                <li class="d-inline ml-5"><a href="DatHang/lietke.php">Quản lý đặt hàng</a></li>
                 <li class="d-inline ml-5"><a href="HangHoa/danhsach.php">Quản lý hàng hóa</a></li>
-                <li class="d-inline ml-5"><a href="">Quản lý khách hàng</a></li>
                 <li class="d-inline ml-5"><a href="NhanVien/danhsach.php">Quản lý nhân viên</a></li>
             </ul>
         </div>

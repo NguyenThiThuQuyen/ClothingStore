@@ -35,10 +35,9 @@
                 <div class="row">
                     <div class="col-12 mt-3">
                         <div class="form-group form-check float-right">
-                            <a href="./them.php" class="mr-4 text-dark"><i class="fas fa-plus"></i> Thêm mới</a>
                             <a href="" class="mr-3 text-dark"><i class="fas fa-download"></i> Xuất excel</a>
                         </div>
-                        <h2 class="text-center mt-5">QUẢN LÝ NHÂN VIÊN</h2>
+                        <h2 class="text-center mt-5">DANH SÁCH NHÂN VIÊN</h2>
                     </div>
                     <div class="col-12 mt-4">
                       <div class="container">                       
@@ -51,7 +50,7 @@
                               <th>Địa chỉ</th>
                               <th>Số điện thoại</th>
                               <th>Tài khoản</th>
-                              <th>Điều chỉnh</th>                            
+                                                 
                             </tr>
                           </thead>
                           <tbody>
@@ -66,12 +65,7 @@
                               <td><?php echo $value['DiaChi'] ?></td>
                               <td><?php echo $value['SoDienThoai'] ?></td>
                               <td><?php echo $value['username'] ?></td>
-                              <td>
-                                <a href="xem.php?MSNV=<?php echo $value['MSNV'] ?>" title="Xem" class="btn btn-white"><i class="far fa-eye"></i></a>                                
-                                <a href="sua.php?MSNV=<?php echo $value['MSNV'] ?>" title="Sửa" class="btn btn-white"><i class="fas fa-pen mr-3"></i></a>                                
-                                <a href="xoa.php?MSNV=<?php echo $value['MSNV'] ?>" title="Xóa" class="btn btn-white"><i class="fas fa-trash-alt"></i></a>
-                            
-                              </td>
+                             
                             </tr>
                             <?php }
                             } ?>

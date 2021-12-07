@@ -26,7 +26,7 @@
         'MSHH' => $hanghoa['MSHH'],
         'TenHH' => $hanghoa['TenHH'],
         'Hinh' => $hanghoa['Hinh'],
-        'Gia' => ($hanghoa['Gia'] > 0) ? $hanghoa['GiaKM'] : $hanghoa['Gia'],
+        'Gia' => ($hanghoa['Gia'] > 0) ? $hanghoa['Gia'] : $hanghoa['GiaKM'],
         'SoLuong' => $SoLuong
     ];
 

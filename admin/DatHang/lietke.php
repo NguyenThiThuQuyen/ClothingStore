@@ -39,7 +39,7 @@
                 <div class="row">
                     <div class="col-12 mt-3">
                         <div class="form-group form-check float-right">
-                            <a href="./them.php" class="mr-4 text-dark"><i class="fas fa-plus"></i> Thêm mới</a>
+                           
                             <a href="" class="mr-3 text-dark"><i class="fas fa-download"></i> Xuất excel</a>
                         </div>
                         <h2 class="text-center mt-5">ĐƠN HÀNG</h2>

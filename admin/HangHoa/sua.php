@@ -28,6 +28,7 @@
         $Hinh = $_FILES["Hinh"];
         $SoLuongHang = $_POST["SoLuongHang"];
         $MaLoaiHang = $_POST["MaLoaiHang"];
+        $MoTa = $_POST["MoTa"];
 
         // echo '<pre>';
         // print_r($_FILES);
@@ -65,7 +66,8 @@
             }
             
         }
-        $sql = "UPDATE hanghoa SET TenHH = '$TenHH', QuyCach = '$QuyCach', Gia = '$Gia',  GiaKM = '$GiaKM',  Hinh = '$file_name', SoLuongHang = '$SoLuongHang'
+        $sql = "UPDATE hanghoa SET TenHH = '$TenHH', QuyCach = '$QuyCach', Gia = '$Gia',
+                  GiaKM = '$GiaKM',  Hinh = '$file_name', SoLuongHang = '$SoLuongHang', MoTa = '$MoTa'
                  WHERE MSHH = $MSHH";
 
         $query = mysqli_query($conn, $sql);
@@ -141,7 +143,7 @@
                                                 <img src="../../upload/<?php echo $hh['Hinh'] ?>" alt="" width="150">
                                             </div>
                                         </div>
-                                        <div class="form-group row mt-5">
+                                        <div class="form-group row mt-3">
                                             <label for="Hinh" class="col-sm-2 col-form-label form_label">Ảnh mô tả</label>
                                             <div class="col-sm-8">
                                                 <input type="file" class="form-control" name="Hinhs[]" id="Hinh" multiple="multiple">
@@ -165,6 +167,13 @@
                                                 <input type="munber" class="form-control" name="SoLuongHang" id="SoLuongHang" value="<?php echo $hh['SoLuongHang'] ?>">
                                             </div>
                                         </div>
+                                        <div class="form-group row mt-3">
+                                            <label for="MoTa" class="col-sm-2 col-form-label form_label">Mô tả sản phẩm</label>
+                                            <div class="col-sm-8">
+                                                <!-- <textarea type="text" class="form-control" name="MoTa" id="MoTa" value="<?php echo $hh['MoTa'] ?>"></textarea> -->
+                                                 <input type="text" class="form-control" id="MoTa" name="MoTa" value="<?php echo $hh['MoTa'] ?>" >
+                                            </div>
+                                        </div> 
 
                                     <div class="my-5">
                                     <button type="button" class="btn btn-secondary px-4" data-dismiss="modal"><a href="./danhsach.php" style="text-decoration: none; color:white">Trở về</a></button>

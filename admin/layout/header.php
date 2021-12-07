@@ -24,7 +24,7 @@
     <div class="collapse navbar-collapse" id="navbarNav" style="justify-content: space-between;">
     <ul class="navbar-nav">
     <li class=" active">
-        <a class="nav-link ml-5" style="font-size: 20px;" href="#"><i class="fas fa-home mr-2"></i>Trang chủ<span class="sr-only">(current)</span></a>                
+        <a class="nav-link ml-5" style="font-size: 20px;" href="../index.php"><i class="fas fa-home mr-2"></i>Trang chủ<span class="sr-only">(current)</span></a>                
     </li>
     <li class="">
           <div class="dropdown">
@@ -32,10 +32,9 @@
                 <i class="fas fa-bars fa-1x mr-2"></i>Danh mục
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" href="">Khách hàng</a>
-              <a class="dropdown-item" href="">Nhân viên</a>
+              <a class="dropdown-item" href="../NhanVien/danhsach.php">Nhân viên</a>
               <a class="dropdown-item" href="../HangHoa/danhsach.php">Hàng hóa</a>
-              <a class="dropdown-item" href="">Đặt hàng</a>
+              <a class="dropdown-item" href="../DatHang/lietke.php">Đặt hàng</a>
             </div>
         </div>
     </li>

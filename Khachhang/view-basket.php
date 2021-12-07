@@ -1,7 +1,6 @@
 
 <?php
     include '../admin/config/config.php'; 
-    include 'function_giohang.php';
     $loaihanghoa = mysqli_query($conn, "SELECT * FROM loaihanghoa");
     $hanghoa = mysqli_query($conn, "SELECT * FROM hanghoa");
     session_start();
@@ -10,7 +9,10 @@
     }
     
     $cart = (isset($_SESSION['cart'])) ? $_SESSION['cart'] : [];
-   
+    // echo "<pre>";
+    // print_r($cart);
+
+ 
 ?>
 
 <!DOCTYPE html>
@@ -95,9 +97,9 @@
                 </div>
                 </li>
                 <li class="nav-item">
-                  <a href="./basket.php" class="nav-link text-dark" style="text-decoration: none; font-size: 20px;">
-                    <i class="fas fa-shopping-cart fa-1x mr-3"></i>Giỏ hàng  (<?php echo count($cart) ?>)
-                </a>
+                <a href="./view-basket.php" class="nav-link text-dark" style="text-decoration: none; font-size: 20px;">
+                    <i class="fas fa-shopping-cart fa-1x mr-3"></i>Giỏ hàng (<?php echo count($cart) ?>)
+                  </a>
               </li>
             </ul>
             <ul class="navbar-nav">         
@@ -148,8 +150,13 @@
             </thead>
             <tbody>
             <?php 
-            if(isset($cart)){             
-                foreach ($cart as $value){                              
+            
+            if(isset($cart)){
+                $tonghoadon = 0;
+                foreach ($cart as $value){                
+                $tong = 0;
+                $tong = $value['Gia']*$value['SoLuong'];              
+                $tonghoadon += ($value['Gia']*$value['SoLuong']);
             ?>
                 <tr>                
                     <td><?php echo $value['TenHH'] ?></td>                           
@@ -163,8 +170,9 @@
                             <button type="submit">Cập nhật</button>
                         </form>
                     </td>
-                    <td><?php echo number_format  ($value['Gia'] * $value['SoLuong']) ?></td>  
+                    <td><?php echo number_format  ($tong,0,",",".") ?></td>  
                     <td><a href="./basket.php?MSHH=<?php echo $value['MSHH'] ?>&action=delete" class="btn btn-danger">Xóa</a></td>
+                
                 </tr>
             <?php }
              } ?>
@@ -182,7 +190,7 @@
             <p class="container mt-2" style="border-bottom: 2px solid #222; width:100%;"></p>
             <div>
                 Tổng tiền:
-                <?php echo number_format (tonghoadon($cart)) ?> VND
+                <?php echo number_format($tonghoadon) ?> VND
             </div>                                
             <button type="button" class="btn btn-outline btn-lg navbar-bg btn-light mt-5">
                 <a href="thanhtoan.php" class="text-dark" style="text-decoration: none;"><i class="fas fa-check mr-2"></i>TIẾN HÀNH THANH TOÁN</a>
